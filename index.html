@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f2937">
-<title>予約管理アプリ Ver.4.2</title>
+<title>予約管理アプリ Ver.5</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",sans-serif;background:#f4f6f8;color:#111827}
@@ -14,39 +15,59 @@ main{max-width:1180px;margin:auto;padding:14px}
 .card{background:#fff;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
 h2{margin:0 0 14px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{display:flex;flex-direction:column;gap:6px}.full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:6px}
+.full{grid-column:1/-1}
 label{font-size:14px;font-weight:700}
 input,select,textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;font-size:16px;background:#fff}
 .actions,.toolbar,.quick,.view-tabs,.calendar-nav{display:flex;gap:8px;flex-wrap:wrap}
 .actions{margin-top:14px}
 button{border:0;border-radius:10px;padding:11px 14px;font-weight:700;font-size:14px;cursor:pointer}
-.primary{background:#2563eb;color:#fff}.secondary{background:#e5e7eb;color:#111827}
-.danger{background:#fee2e2;color:#991b1b}.success{background:#dcfce7;color:#166534}.warning{background:#fef3c7;color:#92400e}
+.primary{background:#2563eb;color:#fff}
+.secondary{background:#e5e7eb;color:#111827}
+.danger{background:#fee2e2;color:#991b1b}
+.success{background:#dcfce7;color:#166534}
+.warning{background:#fef3c7;color:#92400e}
 .filters{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;margin-bottom:10px}
-.quick,.view-tabs{margin-bottom:10px}.view-tabs button.active{background:#111827;color:#fff}
+.quick,.view-tabs{margin-bottom:10px}
+.view-tabs button.active{background:#111827;color:#fff}
 .summary{font-size:14px;margin:10px 0}
 .dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
 .metric{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:14px}
-.metric-label{font-size:12px;color:#6b7280}.metric-value{font-size:26px;font-weight:800;margin-top:4px}
+.metric-label{font-size:12px;color:#6b7280}
+.metric-value{font-size:26px;font-weight:800;margin-top:4px}
 .metric small{font-size:12px;color:#6b7280}
 .desktop-table{overflow:auto;border:1px solid #e5e7eb;border-radius:10px}
-table{width:100%;border-collapse:collapse;min-width:1240px}
+table{width:100%;border-collapse:collapse;min-width:1300px}
 th,td{padding:8px;border-bottom:1px solid #e5e7eb;border-right:1px solid #eee;font-size:13px;text-align:left;white-space:nowrap}
 th{background:#f3f4f6}
 .mobile-list{display:none}
 .r-card{border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px}
-.r-card.done{background:#f0fdf4}.r-card.cancel{background:#fff1f2;opacity:.82}.r-card.deleted{opacity:.82;background:#fafafa}
-.r-top{display:flex;justify-content:space-between;gap:10px}.r-name{font-size:18px;font-weight:800}.r-date{font-size:16px;font-weight:800;color:#1d4ed8}
-.r-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.r-label{font-size:12px;color:#6b7280}
-.r-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.tel{color:#2563eb;font-weight:700;text-decoration:none}.map-link{color:#2563eb;font-weight:700;text-decoration:none}.note{white-space:pre-wrap}
+.r-card.done{background:#f0fdf4}
+.r-card.cancel{background:#fff1f2;opacity:.82}
+.r-card.deleted{opacity:.82;background:#fafafa}
+.r-top{display:flex;justify-content:space-between;gap:10px}
+.r-name{font-size:18px;font-weight:800}
+.r-date{font-size:16px;font-weight:800;color:#1d4ed8}
+.r-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.r-label{font-size:12px;color:#6b7280}
+.r-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.tel,.map-link{color:#2563eb;font-weight:700;text-decoration:none}
+.note{white-space:pre-wrap}
 .status-select{padding:7px 8px;font-size:13px;border-radius:8px;min-width:120px}
-#loginScreen{max-width:460px;margin:40px auto}.loginBox{background:#fff;padding:22px;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.loginBox h2{text-align:center;margin-bottom:20px}.loginBox input{margin-bottom:12px}.loginBox button{width:100%}
+.dup-badge{display:inline-block;background:#fff7ed;color:#9a3412;border:1px solid #fdba74;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700;margin-top:8px}
+#loginScreen{max-width:460px;margin:40px auto}
+.loginBox{background:#fff;padding:22px;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.loginBox h2{text-align:center;margin-bottom:20px}
+.loginBox input{margin-bottom:12px}
+.loginBox button{width:100%}
 .loginStatus{margin-top:12px;font-size:14px;color:#b91c1c;text-align:center}
-.userbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;font-size:13px}.sync{font-size:13px;color:#166534;font-weight:700}
+.userbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;font-size:13px}
+.sync{font-size:13px;color:#166534;font-weight:700}
 .hidden{display:none!important}
 .history-box{margin-top:12px;border-top:1px solid #e5e7eb;padding-top:10px}
-.history-box summary{cursor:pointer;font-weight:700;font-size:13px}.history-item{font-size:12px;color:#374151;padding:7px 0;border-bottom:1px dashed #e5e7eb;white-space:normal}.history-time{color:#6b7280}
+.history-box summary{cursor:pointer;font-weight:700;font-size:13px}
+.history-item{font-size:12px;color:#374151;padding:7px 0;border-bottom:1px dashed #e5e7eb;white-space:normal}
+.history-time{color:#6b7280}
 .deleted-info{margin-top:8px;padding:8px;background:#f3f4f6;border-radius:8px;font-size:12px;color:#4b5563}
 
 .calendar-wrap{overflow-x:auto}
@@ -55,1544 +76,2674 @@ th{background:#f3f4f6}
 .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;min-width:700px}
 .weekday{text-align:center;font-size:12px;font-weight:700;color:#6b7280;padding:4px}
 .day{min-height:108px;border:1px solid #e5e7eb;border-radius:10px;padding:7px;background:#fff;cursor:pointer;position:relative}
-.day:hover{background:#f8fafc}.day.other{opacity:.42}.day.today{outline:3px solid #2563eb}.day.selected{background:#eff6ff;border-color:#2563eb}
-.day-num{font-weight:800;font-size:14px}.day-count{margin-top:8px;font-size:12px;font-weight:700;color:#1d4ed8}
+.day:hover{background:#f8fafc}
+.day.other{opacity:.42}
+.day.today{outline:3px solid #2563eb}
+.day.selected{background:#eff6ff;border-color:#2563eb}
+.day-num{font-weight:800;font-size:14px}
+.day-count{margin-top:8px;font-size:12px;font-weight:700;color:#1d4ed8}
 .day-dot{display:block;margin-top:5px;padding:3px 5px;border-radius:6px;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#f3f4f6}
-.day-dot.done{background:#dcfce7}.day-dot.cancel{background:#fee2e2}
+.day-dot.done{background:#dcfce7}
+.day-dot.cancel{background:#fee2e2}
 .calendar-selected{margin-top:14px;padding-top:14px;border-top:1px solid #e5e7eb}
 .calendar-selected h3{margin:0 0 10px}
 .calendar-mobile-list{display:grid;gap:8px}
 .cal-mini{border:1px solid #e5e7eb;border-radius:10px;padding:10px;display:flex;justify-content:space-between;gap:10px}
-.cal-mini strong{display:block}.cal-mini .right{text-align:right;white-space:nowrap}
+.cal-mini strong{display:block}
+.cal-mini .right{text-align:right;white-space:nowrap}
 .today-badge{display:inline-block;background:#2563eb;color:#fff;border-radius:999px;padding:2px 7px;font-size:11px;margin-left:6px}
 
 @media(max-width:760px){
-.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.filters{grid-template-columns:1fr}.desktop-table{display:none}.mobile-list{display:block}main{padding:10px}
-.dashboard{grid-template-columns:1fr 1fr}.metric{padding:12px}.metric-value{font-size:22px}
-.calendar-grid{min-width:0;gap:3px}.weekday{font-size:10px}.day{min-height:73px;padding:4px}.day-num{font-size:12px}.day-count{font-size:10px;margin-top:5px}.day-dot{display:none}.calendar-title{font-size:19px}
+.form-grid{grid-template-columns:1fr}
+.full{grid-column:auto}
+.filters{grid-template-columns:1fr}
+.desktop-table{display:none}
+.mobile-list{display:block}
+main{padding:10px}
+.dashboard{grid-template-columns:1fr 1fr}
+.metric{padding:12px}
+.metric-value{font-size:22px}
+.calendar-grid{min-width:0;gap:3px}
+.weekday{font-size:10px}
+.day{min-height:73px;padding:4px}
+.day-num{font-size:12px}
+.day-count{font-size:10px;margin-top:5px}
+.day-dot{display:none}
+.calendar-title{font-size:19px}
 }
+
 @media print{
 @page{size:A4 landscape;margin:8mm}
-body{background:#fff}header,.input-card,.toolbar,.filters,.quick,.view-tabs,.mobile-list,.no-print,.userbar,.dashboard,#calendarView{display:none!important}
-main{max-width:none;padding:0}.card{box-shadow:none;padding:0}.desktop-table{display:block!important;overflow:visible;border:0}
-table{min-width:0;width:100%;table-layout:fixed}th,td{font-size:8.2px;padding:4px;white-space:normal;word-break:break-word}
+body{background:#fff}
+header,.input-card,.toolbar,.filters,.quick,.view-tabs,.mobile-list,.no-print,.userbar,.dashboard,#calendarView{display:none!important}
+main{max-width:none;padding:0}
+.card{box-shadow:none;padding:0}
+.desktop-table{display:block!important;overflow:visible;border:0}
+table{min-width:0;width:100%;table-layout:fixed}
+th,td{font-size:7.8px;padding:4px;white-space:normal;word-break:break-word}
 }
 </style>
 </head>
+
 <body>
-<header><h1>予約管理アプリ</h1></header>
+
+<header>
+<h1>予約管理アプリ</h1>
+</header>
 
 <div id="loginScreen">
-  <div class="loginBox">
-    <h2>ログイン</h2>
-    <input id="loginEmail" type="email" placeholder="メールアドレス" autocomplete="username">
-    <input id="loginPassword" type="password" placeholder="パスワード" autocomplete="current-password">
-    <button id="loginBtn" class="primary">ログイン</button>
-    <div id="loginStatus" class="loginStatus"></div>
-  </div>
+<div class="loginBox">
+
+<h2>ログイン</h2>
+
+<input id="loginEmail" type="email" placeholder="メールアドレス" autocomplete="username">
+
+<input id="loginPassword" type="password" placeholder="パスワード" autocomplete="current-password">
+
+<button id="loginBtn" class="primary">
+ログイン
+</button>
+
+<div id="loginStatus" class="loginStatus"></div>
+
+</div>
 </div>
 
 <main id="appScreen" class="hidden">
-  <div class="userbar no-print">
-    <div><span class="sync">● クラウド同期中</span><br><span id="userEmail"></span></div>
-    <button id="logoutBtn" class="secondary">ログアウト</button>
-  </div>
 
-  <section class="card input-card">
-    <h2>予約入力</h2>
-    <form id="form">
-      <input type="hidden" id="editId">
-      <div class="form-grid">
-        <div class="field"><label>お客様名 *</label><input id="customer" required></div>
-        <div class="field"><label>建物名（アパート） *</label><input id="building" required></div>
-        <div class="field full"><label>住所 *</label><input id="address" required placeholder="例：金沢市○○町1-2-3"></div>
-        <div class="field"><label>部屋番号 *</label><input id="room" required></div>
-        <div class="field"><label>交換個数 *</label><input id="count" type="number" min="1" required></div>
-        <div class="field full"><label>電話番号 *</label><input id="phone" type="tel" required></div>
-        <div class="field"><label>希望日程 *</label><input id="date" type="date" required></div>
-        <div class="field"><label>希望時間 *</label><input id="time" type="time" required></div>
-        <div class="field"><label>対応状況</label>
-          <select id="status">
-            <option>未対応</option><option>日程調整中</option><option>日程確定</option>
-            <option>日程変更</option><option>完了</option><option>キャンセル</option>
-          </select>
-        </div>
-        <div class="field"><label>受付日</label><input id="received" type="date"></div>
-        <div class="field full"><label>備考</label><textarea id="note" rows="3"></textarea></div>
-      </div>
-      <div class="actions">
-        <button class="primary" type="submit" id="saveBtn">予約を登録</button>
-        <button class="secondary" type="button" id="clearBtn">入力クリア</button>
-      </div>
-    </form>
-  </section>
+<div class="userbar no-print">
 
-  <section class="card no-print">
-    <h2>本日の状況</h2>
-    <div class="dashboard">
-      <div class="metric"><div class="metric-label">本日の予約</div><div class="metric-value" id="mToday">0</div><small>件</small></div>
-      <div class="metric"><div class="metric-label">未対応</div><div class="metric-value" id="mNew">0</div><small>件</small></div>
-      <div class="metric"><div class="metric-label">日程確定</div><div class="metric-value" id="mFixed">0</div><small>件</small></div>
-      <div class="metric"><div class="metric-label">今月の予約</div><div class="metric-value" id="mMonth">0</div><small>件</small></div>
-    </div>
-  </section>
+<div>
+<span class="sync">● クラウド同期中</span>
+<br>
+<span id="userEmail"></span>
+</div>
 
-  <section class="card">
-    <h2>予約管理</h2>
-    <div class="view-tabs no-print">
-      <button id="activeViewBtn" class="secondary active">通常一覧</button>
-      <button id="calendarViewBtn" class="secondary">カレンダー</button>
-      <button id="trashViewBtn" class="secondary">ゴミ箱 <span id="trashCount"></span></button>
-    </div>
+<button id="logoutBtn" class="secondary">
+ログアウト
+</button>
 
-    <div id="listView">
-      <div id="normalControls">
-        <div class="filters no-print">
-          <input id="search" placeholder="名前・建物名・住所・電話番号で検索">
-          <select id="filterStatus">
-            <option value="">すべての状況</option>
-            <option>未対応</option><option>日程調整中</option><option>日程確定</option>
-            <option>日程変更</option><option>完了</option><option>キャンセル</option>
-          </select>
-          <select id="filterDate">
-            <option value="all">すべての日程</option>
-            <option value="today">本日</option>
-            <option value="tomorrow">明日</option>
-            <option value="week">今週</option>
-            <option value="future">今後</option>
-          </select>
-        </div>
+</div>
 
-        <div class="quick no-print">
-          <button class="secondary" data-quick="all">すべて</button>
-          <button class="secondary" data-quick="today">本日</button>
-          <button class="secondary" data-quick="tomorrow">明日</button>
-          <button class="secondary" data-quick="week">今週</button>
-        </div>
+<section class="card input-card">
 
-        <div class="toolbar no-print">
-          <button class="secondary" id="csvBtn">CSV出力</button>
-          <button class="secondary" onclick="window.print()">A4横で印刷</button>
-        </div>
-      </div>
+<h2>予約入力</h2>
 
-      <div class="summary" id="summary"></div>
-      <div class="mobile-list" id="mobileList"></div>
+<form id="form">
 
-      <div class="desktop-table">
-        <table>
-          <thead>
-            <tr>
-              <th>希望日程</th>
-              <th>希望時間</th>
-              <th>お客様名</th>
-              <th>建物名</th>
-              <th>住所</th>
-              <th>部屋番号</th>
-              <th>交換個数</th>
-              <th>電話番号</th>
-              <th>状況</th>
-              <th>受付日</th>
-              <th>備考</th>
-              <th class="no-print">操作</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-    </div>
+<input type="hidden" id="editId">
 
-    <div id="calendarView" class="hidden">
-      <div class="calendar-head">
-        <button id="prevMonth" class="secondary">← 前月</button>
-        <div class="calendar-title" id="calendarTitle"></div>
-        <button id="nextMonth" class="secondary">次月 →</button>
-      </div>
+<div class="form-grid">
 
-      <div class="calendar-nav">
-        <button id="todayMonthBtn" class="secondary">今月へ戻る</button>
-      </div>
+<div class="field">
+<label>お客様名 *</label>
+<input id="customer" required>
+</div>
 
-      <div class="calendar-wrap">
-        <div class="calendar-grid" id="calendarWeekdays">
-          <div class="weekday">日</div>
-          <div class="weekday">月</div>
-          <div class="weekday">火</div>
-          <div class="weekday">水</div>
-          <div class="weekday">木</div>
-          <div class="weekday">金</div>
-          <div class="weekday">土</div>
-        </div>
-        <div class="calendar-grid" id="calendarGrid"></div>
-      </div>
+<div class="field">
+<label>建物名（アパート） *</label>
+<input id="building" required>
+</div>
 
-      <div class="calendar-selected">
-        <h3 id="selectedDateTitle">日付を選択してください</h3>
-        <div id="selectedDateList" class="calendar-mobile-list"></div>
-      </div>
-    </div>
-  </section>
+<div class="field full">
+<label>住所 *</label>
+<input id="address" required placeholder="例：金沢市○○町1-2-3">
+</div>
+
+<div class="field">
+<label>部屋番号 *</label>
+<input id="room" required>
+</div>
+
+<div class="field">
+<label>交換個数 *</label>
+<input id="count" type="number" min="1" required>
+</div>
+
+<div class="field full">
+<label>電話番号 *</label>
+<input id="phone" type="tel" required>
+</div>
+
+<div class="field">
+<label>希望日程 *</label>
+<input id="date" type="date" required>
+</div>
+
+<div class="field">
+<label>希望時間 *</label>
+<input id="time" type="time" required>
+</div>
+
+<div class="field">
+<label>対応状況</label>
+
+<select id="status">
+<option>未対応</option>
+<option>日程調整中</option>
+<option>日程確定</option>
+<option>日程変更</option>
+<option>完了</option>
+<option>キャンセル</option>
+</select>
+
+</div>
+
+<div class="field">
+<label>担当者</label>
+<input id="assignee" placeholder="例：鈴木">
+</div>
+
+<div class="field">
+<label>受付日</label>
+<input id="received" type="date">
+</div>
+
+<div class="field full">
+<label>備考</label>
+<textarea id="note" rows="3"></textarea>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="primary" type="submit" id="saveBtn">
+予約を登録
+</button>
+
+<button class="secondary" type="button" id="clearBtn">
+入力クリア
+</button>
+
+</div>
+
+</form>
+
+</section>
+
+<section class="card no-print">
+
+<h2>本日の状況</h2>
+
+<div class="dashboard">
+
+<div class="metric">
+<div class="metric-label">本日の予約</div>
+<div class="metric-value" id="mToday">0</div>
+<small>件</small>
+</div>
+
+<div class="metric">
+<div class="metric-label">未対応</div>
+<div class="metric-value" id="mNew">0</div>
+<small>件</small>
+</div>
+
+<div class="metric">
+<div class="metric-label">日程確定</div>
+<div class="metric-value" id="mFixed">0</div>
+<small>件</small>
+</div>
+
+<div class="metric">
+<div class="metric-label">今月の予約</div>
+<div class="metric-value" id="mMonth">0</div>
+<small>件</small>
+</div>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>予約管理</h2>
+
+<div class="view-tabs no-print">
+
+<button id="activeViewBtn" class="secondary active">
+通常一覧
+</button>
+
+<button id="calendarViewBtn" class="secondary">
+カレンダー
+</button>
+
+<button id="trashViewBtn" class="secondary">
+ゴミ箱 <span id="trashCount"></span>
+</button>
+
+</div>
+
+<div id="listView">
+
+<div id="normalControls">
+
+<div class="filters no-print">
+
+<input id="search" placeholder="名前・建物名・住所・電話番号・担当者で検索">
+
+<select id="filterStatus">
+
+<option value="">すべての状況</option>
+<option>未対応</option>
+<option>日程調整中</option>
+<option>日程確定</option>
+<option>日程変更</option>
+<option>完了</option>
+<option>キャンセル</option>
+
+</select>
+
+<select id="filterDate">
+
+<option value="all">すべての日程</option>
+<option value="today">本日</option>
+<option value="tomorrow">明日</option>
+<option value="week">今週</option>
+<option value="future">今後</option>
+
+</select>
+
+</div>
+
+<div class="quick no-print">
+
+<button class="secondary" data-quick="all">すべて</button>
+<button class="secondary" data-quick="today">本日</button>
+<button class="secondary" data-quick="tomorrow">明日</button>
+<button class="secondary" data-quick="week">今週</button>
+
+</div>
+
+<div class="toolbar no-print">
+
+<button class="secondary" id="csvBtn">
+CSV出力
+</button>
+
+<button class="secondary" onclick="window.print()">
+A4横で印刷
+</button>
+
+</div>
+
+</div>
+
+<div class="summary" id="summary"></div>
+
+<div class="mobile-list" id="mobileList"></div>
+
+<div class="desktop-table">
+
+<table>
+
+<thead>
+
+<tr>
+<th>希望日程</th>
+<th>希望時間</th>
+<th>お客様名</th>
+<th>建物名</th>
+<th>住所</th>
+<th>部屋番号</th>
+<th>交換個数</th>
+<th>電話番号</th>
+<th>状況</th>
+<th>担当者</th>
+<th>受付日</th>
+<th>備考</th>
+<th class="no-print">操作</th>
+</tr>
+
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div id="calendarView" class="hidden">
+
+<div class="calendar-head">
+
+<button id="prevMonth" class="secondary">
+← 前月
+</button>
+
+<div id="calendarTitle" class="calendar-title"></div>
+
+<button id="nextMonth" class="secondary">
+次月 →
+</button>
+
+</div>
+
+<div class="calendar-nav">
+
+<button id="todayMonthBtn" class="secondary">
+今月へ戻る
+</button>
+
+</div>
+
+<div class="calendar-wrap">
+
+<div id="calendarWeekdays" class="calendar-grid">
+
+<div class="weekday">日</div>
+<div class="weekday">月</div>
+<div class="weekday">火</div>
+<div class="weekday">水</div>
+<div class="weekday">木</div>
+<div class="weekday">金</div>
+<div class="weekday">土</div>
+
+</div>
+
+<div id="calendarGrid" class="calendar-grid"></div>
+
+</div>
+
+<div class="calendar-selected">
+
+<h3 id="selectedDateTitle">
+日付を選択してください
+</h3>
+
+<div id="selectedDateList" class="calendar-mobile-list"></div>
+
+</div>
+
+</div>
+
+</section>
+
 </main>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import {
-  getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot,
-  serverTimestamp, arrayUnion
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDAojY61XI6ZiCCVkRcQxLRLHK2aI0U3Aw",
-  authDomain: "reservation-manager-24352.firebaseapp.com",
-  projectId: "reservation-manager-24352",
-  storageBucket: "reservation-manager-24352.firebasestorage.app",
-  messagingSenderId: "1020898119995",
-  appId: "1:1020898119995:web:96c0e1c388fd804f5da71e"
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+doc,
+updateDoc,
+deleteDoc,
+onSnapshot,
+serverTimestamp,
+arrayUnion
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyDAojY61XI6ZiCCVkRcQxLRLHK2aI0U3Aw",
+
+authDomain:
+"reservation-manager-24352.firebaseapp.com",
+
+projectId:
+"reservation-manager-24352",
+
+storageBucket:
+"reservation-manager-24352.firebasestorage.app",
+
+messagingSenderId:
+"1020898119995",
+
+appId:
+"1:1020898119995:web:96c0e1c388fd804f5da71e"
+
 };
 
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-const $=id=>document.getElementById(id);
+const app=
+initializeApp(firebaseConfig);
+
+const auth=
+getAuth(app);
+
+const db=
+getFirestore(app);
+
+const $=
+id=>document.getElementById(id);
 
 let data=[];
+
 let unsubscribe=null;
+
 let viewMode="active";
-let calendarCursor=new Date();
-calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth(),1);
+
+let calendarCursor=
+new Date();
+
+calendarCursor=
+new Date(
+calendarCursor.getFullYear(),
+calendarCursor.getMonth(),
+1
+);
+
 let selectedCalendarDate="";
 
-const STATUS_OPTIONS=["未対応","日程調整中","日程確定","日程変更","完了","キャンセル"];
+const STATUS_OPTIONS=[
+"未対応",
+"日程調整中",
+"日程確定",
+"日程変更",
+"完了",
+"キャンセル"
+];
 
 function esc(v=""){
-  return String(v).replace(/[&<>"']/g,m=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[m]));
+
+return String(v)
+.replace(
+/[&<>"']/g,
+m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[m])
+);
+
 }
 
 function fmtDate(s){
-  if(!s)return "";
-  const p=s.split("-");
-  return p.length===3?`${p[0]}/${p[1]}/${p[2]}`:s;
+
+if(!s)
+return "";
+
+const p=
+s.split("-");
+
+return p.length===3
+?
+`${p[0]}/${p[1]}/${p[2]}`
+:
+s;
+
 }
 
 function mapsUrl(address){
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address||"")}`;
+
+return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address||"")}`;
+
 }
 
 function isoLocal(d){
-  const z=n=>String(n).padStart(2,"0");
-  return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`;
+
+const z=
+n=>String(n).padStart(2,"0");
+
+return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`;
+
 }
 
 function nowText(){
-  const d=new Date(),z=n=>String(n).padStart(2,"0");
-  return `${d.getFullYear()}/${z(d.getMonth()+1)}/${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}`;
-}
 
-function inWeek(dateStr){
-  if(!dateStr)return false;
+const d=
+new Date();
 
-  const now=new Date();
-  now.setHours(0,0,0,0);
+const z=
+n=>String(n).padStart(2,"0");
 
-  const day=now.getDay()||7;
-  const monday=new Date(now);
-  monday.setDate(now.getDate()-day+1);
+return `${d.getFullYear()}/${z(d.getMonth()+1)}/${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}`;
 
-  const sunday=new Date(monday);
-  sunday.setDate(monday.getDate()+6);
-
-  const d=new Date(dateStr+"T00:00:00");
-
-  return d>=monday&&d<=sunday;
-}
-
-function dateMatch(r,mode){
-  if(mode==="all")return true;
-
-  const today=isoLocal(new Date());
-
-  const tmr=new Date();
-  tmr.setDate(tmr.getDate()+1);
-
-  if(mode==="today")return r.date===today;
-  if(mode==="tomorrow")return r.date===isoLocal(tmr);
-  if(mode==="week")return inWeek(r.date);
-  if(mode==="future")return r.date>=today;
-
-  return true;
 }
 
 function activeRows(){
-  return data.filter(r=>!r.isDeleted);
+
+return data.filter(
+r=>!r.isDeleted
+);
+
 }
 
 function deletedRows(){
-  return data.filter(r=>r.isDeleted);
+
+return data.filter(
+r=>r.isDeleted
+);
+
+}
+
+function duplicateRows(
+date,
+time,
+excludeId=""
+){
+
+return activeRows()
+.filter(
+r=>
+r.id!==excludeId
+&&
+r.status!=="キャンセル"
+&&
+r.date===date
+&&
+r.time===time
+);
+
+}
+
+function inWeek(dateStr){
+
+if(!dateStr)
+return false;
+
+const now=
+new Date();
+
+now.setHours(
+0,
+0,
+0,
+0
+);
+
+const day=
+now.getDay()||7;
+
+const monday=
+new Date(now);
+
+monday.setDate(
+now.getDate()-day+1
+);
+
+const sunday=
+new Date(monday);
+
+sunday.setDate(
+monday.getDate()+6
+);
+
+const d=
+new Date(
+dateStr+"T00:00:00"
+);
+
+return (
+d>=monday
+&&
+d<=sunday
+);
+
+}
+
+function dateMatch(
+r,
+mode
+){
+
+if(mode==="all")
+return true;
+
+const today=
+isoLocal(
+new Date()
+);
+
+const tmr=
+new Date();
+
+tmr.setDate(
+tmr.getDate()+1
+);
+
+if(mode==="today")
+return r.date===today;
+
+if(mode==="tomorrow")
+return r.date===isoLocal(tmr);
+
+if(mode==="week")
+return inWeek(r.date);
+
+if(mode==="future")
+return r.date>=today;
+
+return true;
+
 }
 
 function rowClass(r){
-  if(r.status==="完了")return "done";
-  if(r.status==="キャンセル")return "cancel";
-  return "";
+
+if(r.status==="完了")
+return "done";
+
+if(r.status==="キャンセル")
+return "cancel";
+
+return "";
+
 }
 
 function filtered(){
-  let rows=viewMode==="trash"?deletedRows():activeRows();
 
-  if(viewMode==="trash"){
-    return [...rows].sort((a,b)=>(b.deletedAtText||"").localeCompare(a.deletedAtText||""));
-  }
+let rows=
+viewMode==="trash"
+?
+deletedRows()
+:
+activeRows();
 
-  const q=$("search").value.trim().toLowerCase();
-  const fs=$("filterStatus").value;
-  const fd=$("filterDate").value;
+if(viewMode==="trash"){
 
-  return [...rows]
-    .filter(r=>(!fs||r.status===fs)&&dateMatch(r,fd))
-    .filter(r=>!q||[
-      r.customer,
-      r.building,
-      r.address,
-      r.room,
-      r.phone,
-      r.note
-    ].join(" ").toLowerCase().includes(q))
-    .sort((a,b)=>((a.date||"")+" "+(a.time||"")).localeCompare((b.date||"")+" "+(b.time||"")));
+return [...rows]
+.sort(
+(a,b)=>
+(b.deletedAtText||"")
+.localeCompare(
+a.deletedAtText||""
+)
+);
+
+}
+
+const q=
+$("search")
+.value
+.trim()
+.toLowerCase();
+
+const fs=
+$("filterStatus")
+.value;
+
+const fd=
+$("filterDate")
+.value;
+
+return [...rows]
+
+.filter(
+r=>
+(
+!fs
+||
+r.status===fs
+)
+&&
+dateMatch(
+r,
+fd
+)
+)
+
+.filter(
+r=>
+!q
+||
+[
+r.customer,
+r.building,
+r.address,
+r.room,
+r.phone,
+r.assignee,
+r.note
+]
+.join(" ")
+.toLowerCase()
+.includes(q)
+)
+
+.sort(
+(a,b)=>
+(
+(a.date||"")
++" "+
+(a.time||"")
+)
+.localeCompare(
+(b.date||"")
++" "+
+(b.time||"")
+)
+);
+
 }
 
 function statusSelectHtml(r){
-  return `
-  <select class="status-select" onchange="quickStatus('${r.id}',this.value)">
-    ${STATUS_OPTIONS.map(s=>`
-      <option ${s===r.status?"selected":""}>${s}</option>
-    `).join("")}
-  </select>`;
+
+return `
+
+<select
+class="status-select"
+onchange="quickStatus('${r.id}',this.value)">
+
+${STATUS_OPTIONS
+.map(
+s=>
+`
+<option
+${s===r.status?"selected":""}>
+${s}
+</option>
+`
+)
+.join("")}
+
+</select>
+
+`;
+
 }
 
 function historyHtml(r){
-  const h=Array.isArray(r.history)?[...r.history].reverse():[];
 
-  if(!h.length)return "";
+const h=
+Array.isArray(r.history)
+?
+[...r.history].reverse()
+:
+[];
 
-  return `
-  <details class="history-box">
-    <summary>変更履歴（${h.length}件）</summary>
-    ${h.map(x=>`
-      <div class="history-item">
-        <span class="history-time">${esc(x.at||"")}</span><br>
-        ${esc(x.message||"")}<br>
-        <span class="history-time">${esc(x.by||"")}</span>
-      </div>
-    `).join("")}
-  </details>`;
+if(!h.length)
+return "";
+
+return `
+
+<details class="history-box">
+
+<summary>
+変更履歴（${h.length}件）
+</summary>
+
+${h.map(
+x=>
+`
+
+<div class="history-item">
+
+<span class="history-time">
+${esc(x.at||"")}
+</span>
+
+<br>
+
+${esc(x.message||"")}
+
+<br>
+
+<span class="history-time">
+${esc(x.by||"")}
+</span>
+
+</div>
+
+`
+).join("")}
+
+</details>
+
+`;
+
 }
 
 function renderDashboard(){
-  const rows=activeRows();
-  const today=isoLocal(new Date());
-  const ym=today.slice(0,7);
 
-  $("mToday").textContent=rows.filter(r=>r.date===today).length;
-  $("mNew").textContent=rows.filter(r=>r.status==="未対応").length;
-  $("mFixed").textContent=rows.filter(r=>r.status==="日程確定").length;
-  $("mMonth").textContent=rows.filter(r=>(r.date||"").startsWith(ym)).length;
+const rows=
+activeRows();
+
+const today=
+isoLocal(
+new Date()
+);
+
+const ym=
+today.slice(
+0,
+7
+);
+
+$("mToday")
+.textContent=
+rows.filter(
+r=>r.date===today
+).length;
+
+$("mNew")
+.textContent=
+rows.filter(
+r=>r.status==="未対応"
+).length;
+
+$("mFixed")
+.textContent=
+rows.filter(
+r=>r.status==="日程確定"
+).length;
+
+$("mMonth")
+.textContent=
+rows.filter(
+r=>
+(r.date||"")
+.startsWith(ym)
+).length;
+
 }
 
 function renderList(){
-  const rows=filtered();
-  const activeCount=activeRows().length;
-  const trash=deletedRows().length;
 
-  $("trashCount").textContent=trash?`(${trash})`:"";
+const rows=
+filtered();
 
-  $("summary").textContent=
-    viewMode==="trash"
-    ?`ゴミ箱：${rows.length}件`
-    :`表示件数：${rows.length}件 ／ 登録総数：${activeCount}件`;
+const activeCount=
+activeRows().length;
 
-  $("normalControls").classList.toggle("hidden",viewMode==="trash");
+const trash=
+deletedRows().length;
 
-  $("tbody").innerHTML=rows.map(r=>viewMode==="trash"?`
-    <tr>
-      <td>${esc(fmtDate(r.date))}</td>
-      <td>${esc(r.time)}</td>
-      <td>${esc(r.customer)}</td>
-      <td>${esc(r.building)}</td>
-      <td>
-        ${r.address?`
-          <a class="map-link"
-             href="${mapsUrl(r.address)}"
-             target="_blank"
-             rel="noopener">
-             ${esc(r.address)}
-          </a>
-        `:""}
-      </td>
-      <td>${esc(r.room)}</td>
-      <td>${esc(r.count)}</td>
-      <td>${esc(r.phone)}</td>
-      <td>${esc(r.status)}</td>
-      <td>${esc(fmtDate(r.received||""))}</td>
-      <td>${esc(r.note||"")}</td>
-      <td class="no-print">
-        <button class="success" onclick="restoreRow('${r.id}')">復元</button>
-        <button class="danger" onclick="permanentDelete('${r.id}')">完全削除</button>
-      </td>
-    </tr>
-  `:`
-    <tr>
-      <td>${esc(fmtDate(r.date))}</td>
-      <td>${esc(r.time)}</td>
-      <td>${esc(r.customer)}</td>
-      <td>${esc(r.building)}</td>
-      <td>
-        ${r.address?`
-          <a class="map-link"
-             href="${mapsUrl(r.address)}"
-             target="_blank"
-             rel="noopener">
-             ${esc(r.address)}
-          </a>
-        `:""}
-      </td>
-      <td>${esc(r.room)}</td>
-      <td>${esc(r.count)}</td>
-      <td>${esc(r.phone)}</td>
-      <td>${statusSelectHtml(r)}</td>
-      <td>${esc(fmtDate(r.received||""))}</td>
-      <td>${esc(r.note||"")}</td>
-      <td class="no-print">
-        <button class="secondary" onclick="editRow('${r.id}')">編集</button>
-        <button class="warning" onclick="softDelete('${r.id}')">ゴミ箱へ</button>
-      </td>
-    </tr>
-  `).join("");
+$("trashCount")
+.textContent=
+trash
+?
+`(${trash})`
+:
+"";
 
-  $("mobileList").innerHTML=rows.map(r=>viewMode==="trash"?`
-    <div class="r-card deleted">
+$("summary")
+.textContent=
+viewMode==="trash"
+?
+`ゴミ箱：${rows.length}件`
+:
+`表示件数：${rows.length}件 ／ 登録総数：${activeCount}件`;
 
-      <div class="r-top">
-        <div>
-          <div class="r-name">${esc(r.customer)}</div>
-          <div>${esc(r.building)} ${esc(r.room)}</div>
-        </div>
+$("normalControls")
+.classList.toggle(
+"hidden",
+viewMode==="trash"
+);
 
-        <div style="text-align:right">
-          <div class="r-date">${esc(fmtDate(r.date))}</div>
-          <div style="font-weight:800">${esc(r.time)}</div>
-        </div>
-      </div>
+$("tbody")
+.innerHTML=
+rows.map(
+r=>
+viewMode==="trash"
+?
+`
 
-      ${r.address?`
-        <div style="margin-top:8px">
-          <div class="r-label">住所</div>
-          <div>
-            <a class="map-link"
-               href="${mapsUrl(r.address)}"
-               target="_blank"
-               rel="noopener">
-               ${esc(r.address)}
-            </a>
-          </div>
-        </div>
-      `:""}
+<tr>
 
-      <div class="deleted-info">
-        削除日時：${esc(r.deletedAtText||"")}<br>
-        削除者：${esc(r.deletedBy||"")}
-      </div>
+<td>${esc(fmtDate(r.date))}</td>
+<td>${esc(r.time)}</td>
+<td>${esc(r.customer)}</td>
+<td>${esc(r.building)}</td>
 
-      <div class="r-actions">
-        <button class="success" onclick="restoreRow('${r.id}')">復元</button>
-        <button class="danger" onclick="permanentDelete('${r.id}')">完全削除</button>
-      </div>
+<td>
+${r.address
+?
+`
+<a
+class="map-link"
+href="${mapsUrl(r.address)}"
+target="_blank"
+rel="noopener">
+${esc(r.address)}
+</a>
+`
+:
+""
+}
+</td>
 
-      ${historyHtml(r)}
+<td>${esc(r.room)}</td>
+<td>${esc(r.count)}</td>
+<td>${esc(r.phone)}</td>
+<td>${esc(r.status)}</td>
+<td>${esc(r.assignee||"")}</td>
+<td>${esc(fmtDate(r.received||""))}</td>
+<td>${esc(r.note||"")}</td>
 
-    </div>
-  `:`
-    <div class="r-card ${rowClass(r)}">
+<td class="no-print">
 
-      <div class="r-top">
-        <div>
-          <div class="r-name">${esc(r.customer)}</div>
-          <div>${esc(r.building)} ${esc(r.room)}</div>
-        </div>
+<button
+class="success"
+onclick="restoreRow('${r.id}')">
+復元
+</button>
 
-        <div style="text-align:right">
-          <div class="r-date">${esc(fmtDate(r.date))}</div>
-          <div style="font-weight:800">${esc(r.time)}</div>
-        </div>
-      </div>
+<button
+class="danger"
+onclick="permanentDelete('${r.id}')">
+完全削除
+</button>
 
-      ${r.address?`
-        <div style="margin-top:8px">
-          <div class="r-label">住所</div>
-          <div>
-            <a class="map-link"
-               href="${mapsUrl(r.address)}"
-               target="_blank"
-               rel="noopener">
-               ${esc(r.address)}
-            </a>
-          </div>
-        </div>
-      `:""}
+</td>
 
-      <div class="r-grid">
+</tr>
 
-        <div>
-          <div class="r-label">交換個数</div>
-          <strong>${esc(r.count)}個</strong>
-        </div>
+`
+:
+`
 
-        <div>
-          <div class="r-label">対応状況</div>
-          ${statusSelectHtml(r)}
-        </div>
+<tr>
 
-        <div>
-          <div class="r-label">電話番号</div>
-          <a class="tel" href="tel:${esc(r.phone)}">
-            ${esc(r.phone)}
-          </a>
-        </div>
+<td>${esc(fmtDate(r.date))}</td>
+<td>${esc(r.time)}</td>
+<td>${esc(r.customer)}</td>
+<td>${esc(r.building)}</td>
 
-        <div>
-          <div class="r-label">受付日</div>
-          ${esc(fmtDate(r.received||""))}
-        </div>
+<td>
 
-      </div>
+${r.address
+?
+`
 
-      ${r.note?`
-        <div style="margin-top:10px">
-          <div class="r-label">備考</div>
-          <div class="note">${esc(r.note)}</div>
-        </div>
-      `:""}
+<a
+class="map-link"
+href="${mapsUrl(r.address)}"
+target="_blank"
+rel="noopener">
+${esc(r.address)}
+</a>
 
-      <div class="r-actions">
+`
+:
+""
+}
 
-        <a href="tel:${esc(r.phone)}">
-          <button class="success" type="button">
-            電話する
-          </button>
-        </a>
+</td>
 
-        ${r.address?`
-          <a href="${mapsUrl(r.address)}"
-             target="_blank"
-             rel="noopener">
-            <button class="primary" type="button">
-              マップを開く
-            </button>
-          </a>
-        `:""}
+<td>${esc(r.room)}</td>
+<td>${esc(r.count)}</td>
+<td>${esc(r.phone)}</td>
 
-        <button
-          class="secondary"
-          type="button"
-          onclick="editRow('${r.id}')">
-          編集
-        </button>
+<td>
+${statusSelectHtml(r)}
+</td>
 
-        <button
-          class="warning"
-          type="button"
-          onclick="softDelete('${r.id}')">
-          ゴミ箱へ
-        </button>
+<td>${esc(r.assignee||"")}</td>
 
-      </div>
+<td>${esc(fmtDate(r.received||""))}</td>
 
-      ${historyHtml(r)}
+<td>${esc(r.note||"")}</td>
 
-    </div>
-  `).join("");
+<td class="no-print">
+
+<button
+class="secondary"
+onclick="editRow('${r.id}')">
+編集
+</button>
+
+<button
+class="warning"
+onclick="softDelete('${r.id}')">
+ゴミ箱へ
+</button>
+
+</td>
+
+</tr>
+
+`
+)
+.join("");
+
+$("mobileList")
+.innerHTML=
+rows.map(
+r=>
+viewMode==="trash"
+?
+`
+
+<div class="r-card deleted">
+
+<div class="r-top">
+
+<div>
+
+<div class="r-name">
+${esc(r.customer)}
+</div>
+
+<div>
+${esc(r.building)}
+${esc(r.room)}
+</div>
+
+</div>
+
+<div style="text-align:right">
+
+<div class="r-date">
+${esc(fmtDate(r.date))}
+</div>
+
+<div style="font-weight:800">
+${esc(r.time)}
+</div>
+
+</div>
+
+</div>
+
+${r.address
+?
+`
+
+<div style="margin-top:8px">
+
+<div class="r-label">
+住所
+</div>
+
+<a
+class="map-link"
+href="${mapsUrl(r.address)}"
+target="_blank"
+rel="noopener">
+${esc(r.address)}
+</a>
+
+</div>
+
+`
+:
+""
+}
+
+<div class="deleted-info">
+
+削除日時：
+${esc(r.deletedAtText||"")}
+
+<br>
+
+削除者：
+${esc(r.deletedBy||"")}
+
+</div>
+
+<div class="r-actions">
+
+<button
+class="success"
+onclick="restoreRow('${r.id}')">
+復元
+</button>
+
+<button
+class="danger"
+onclick="permanentDelete('${r.id}')">
+完全削除
+</button>
+
+</div>
+
+${historyHtml(r)}
+
+</div>
+
+`
+:
+`
+
+<div class="r-card ${rowClass(r)}">
+
+<div class="r-top">
+
+<div>
+
+<div class="r-name">
+${esc(r.customer)}
+</div>
+
+<div>
+${esc(r.building)}
+${esc(r.room)}
+</div>
+
+</div>
+
+<div style="text-align:right">
+
+<div class="r-date">
+${esc(fmtDate(r.date))}
+</div>
+
+<div style="font-weight:800">
+${esc(r.time)}
+</div>
+
+</div>
+
+</div>
+
+${r.address
+?
+`
+
+<div style="margin-top:8px">
+
+<div class="r-label">
+住所
+</div>
+
+<a
+class="map-link"
+href="${mapsUrl(r.address)}"
+target="_blank"
+rel="noopener">
+${esc(r.address)}
+</a>
+
+</div>
+
+`
+:
+""
+}
+
+${duplicateRows(
+r.date,
+r.time,
+r.id
+).length
+?
+`
+
+<div class="dup-badge">
+⚠️ 同時刻に他の予約あり
+</div>
+
+`
+:
+""
+}
+
+<div class="r-grid">
+
+<div>
+
+<div class="r-label">
+交換個数
+</div>
+
+<strong>
+${esc(r.count)}個
+</strong>
+
+</div>
+
+<div>
+
+<div class="r-label">
+対応状況
+</div>
+
+${statusSelectHtml(r)}
+
+</div>
+
+<div>
+
+<div class="r-label">
+担当者
+</div>
+
+<strong>
+${esc(r.assignee||"未定")}
+</strong>
+
+</div>
+
+<div>
+
+<div class="r-label">
+電話番号
+</div>
+
+<a
+class="tel"
+href="tel:${esc(r.phone)}">
+${esc(r.phone)}
+</a>
+
+</div>
+
+<div>
+
+<div class="r-label">
+受付日
+</div>
+
+${esc(fmtDate(r.received||""))}
+
+</div>
+
+</div>
+
+${r.note
+?
+`
+
+<div style="margin-top:10px">
+
+<div class="r-label">
+備考
+</div>
+
+<div class="note">
+${esc(r.note)}
+</div>
+
+</div>
+
+`
+:
+""
+}
+
+<div class="r-actions">
+
+<a href="tel:${esc(r.phone)}">
+
+<button
+class="success"
+type="button">
+電話する
+</button>
+
+</a>
+
+${r.address
+?
+`
+
+<a
+href="${mapsUrl(r.address)}"
+target="_blank"
+rel="noopener">
+
+<button
+class="primary"
+type="button">
+マップを開く
+</button>
+
+</a>
+
+`
+:
+""
+}
+
+<button
+class="secondary"
+type="button"
+onclick="editRow('${r.id}')">
+編集
+</button>
+
+<button
+class="warning"
+type="button"
+onclick="softDelete('${r.id}')">
+ゴミ箱へ
+</button>
+
+</div>
+
+${historyHtml(r)}
+
+</div>
+
+`
+)
+.join("");
+
 }
 
 function renderCalendar(){
-  const year=calendarCursor.getFullYear();
-  const month=calendarCursor.getMonth();
 
-  $("calendarTitle").textContent=`${year}年 ${month+1}月`;
+const year=
+calendarCursor.getFullYear();
 
-  const first=new Date(year,month,1);
-  const start=new Date(year,month,1-first.getDay());
-  const today=isoLocal(new Date());
-  const active=activeRows();
+const month=
+calendarCursor.getMonth();
 
-  $("calendarGrid").innerHTML="";
+$("calendarTitle")
+.textContent=
+`${year}年 ${month+1}月`;
 
-  for(let i=0;i<42;i++){
+const first=
+new Date(
+year,
+month,
+1
+);
 
-    const d=new Date(start);
-    d.setDate(start.getDate()+i);
+const start=
+new Date(
+year,
+month,
+1-first.getDay()
+);
 
-    const ds=isoLocal(d);
-    const same=d.getMonth()===month;
+const today=
+isoLocal(
+new Date()
+);
 
-    const rows=active
-      .filter(r=>r.date===ds)
-      .sort((a,b)=>(a.time||"").localeCompare(b.time||""));
+const active=
+activeRows();
 
-    const div=document.createElement("div");
+$("calendarGrid")
+.innerHTML="";
 
-    div.className=
-      `day ${same?"":"other"} ${ds===today?"today":""} ${ds===selectedCalendarDate?"selected":""}`;
+for(
+let i=0;
+i<42;
+i++
+){
 
-    div.dataset.date=ds;
+const d=
+new Date(start);
 
-    div.innerHTML=`
-      <div class="day-num">
-        ${d.getDate()}
-        ${ds===today?'<span class="today-badge">今日</span>':""}
-      </div>
+d.setDate(
+start.getDate()+i
+);
 
-      ${rows.length?`
-        <div class="day-count">
-          予約 ${rows.length}件
-        </div>
-      `:""}
+const ds=
+isoLocal(d);
 
-      ${rows.slice(0,3).map(r=>`
-        <span class="day-dot ${rowClass(r)}">
-          ${esc(r.time||"")} ${esc(r.customer||"")}
-        </span>
-      `).join("")}
+const same=
+d.getMonth()===month;
 
-      ${rows.length>3?`
-        <span class="day-dot">
-          ほか ${rows.length-3}件
-        </span>
-      `:""}
-    `;
+const rows=
+active
+.filter(
+r=>r.date===ds
+)
+.sort(
+(a,b)=>
+(a.time||"")
+.localeCompare(
+b.time||""
+)
+);
 
-    div.onclick=()=>{
-      selectedCalendarDate=ds;
-      renderCalendar();
-      renderSelectedDate();
-    };
+const div=
+document.createElement(
+"div"
+);
 
-    $("calendarGrid").appendChild(div);
-  }
+div.className=
+`day ${same?"":"other"} ${ds===today?"today":""} ${ds===selectedCalendarDate?"selected":""}`;
 
-  renderSelectedDate();
+div.dataset.date=
+ds;
+
+div.innerHTML=
+`
+
+<div class="day-num">
+
+${d.getDate()}
+
+${ds===today
+?
+'<span class="today-badge">今日</span>'
+:
+""
+}
+
+</div>
+
+${rows.length
+?
+`
+
+<div class="day-count">
+予約 ${rows.length}件
+</div>
+
+`
+:
+""
+}
+
+${rows
+.slice(
+0,
+3
+)
+.map(
+r=>
+`
+
+<span class="day-dot ${rowClass(r)}">
+${esc(r.time||"")}
+${esc(r.customer||"")}
+</span>
+
+`
+)
+.join("")
+}
+
+${rows.length>3
+?
+`
+
+<span class="day-dot">
+ほか ${rows.length-3}件
+</span>
+
+`
+:
+""
+}
+
+`;
+
+div.onclick=
+()=>{
+
+selectedCalendarDate=
+ds;
+
+renderCalendar();
+
+renderSelectedDate();
+
+};
+
+$("calendarGrid")
+.appendChild(div);
+
+}
+
+renderSelectedDate();
+
 }
 
 function renderSelectedDate(){
 
-  if(!selectedCalendarDate){
+if(!selectedCalendarDate){
 
-    $("selectedDateTitle").textContent=
-      "日付を選択してください";
+$("selectedDateTitle")
+.textContent=
+"日付を選択してください";
 
-    $("selectedDateList").innerHTML="";
+$("selectedDateList")
+.innerHTML="";
 
-    return;
-  }
+return;
 
-  const rows=activeRows()
-    .filter(r=>r.date===selectedCalendarDate)
-    .sort((a,b)=>(a.time||"").localeCompare(b.time||""));
+}
 
-  $("selectedDateTitle").textContent=
-    `${fmtDate(selectedCalendarDate)} の予約（${rows.length}件）`;
+const rows=
+activeRows()
+.filter(
+r=>r.date===selectedCalendarDate
+)
+.sort(
+(a,b)=>
+(a.time||"")
+.localeCompare(
+b.time||""
+)
+);
 
-  $("selectedDateList").innerHTML=
-    rows.length
-    ?
-    rows.map(r=>`
-      <div class="cal-mini">
+$("selectedDateTitle")
+.textContent=
+`${fmtDate(selectedCalendarDate)} の予約（${rows.length}件）`;
 
-        <div>
-          <strong>${esc(r.customer)}</strong>
+$("selectedDateList")
+.innerHTML=
+rows.length
+?
+rows.map(
+r=>
+`
 
-          <div>
-            ${esc(r.building)} ${esc(r.room)}
-          </div>
+<div class="cal-mini">
 
-          ${r.address?`
-            <div>
-              <a class="map-link"
-                 href="${mapsUrl(r.address)}"
-                 target="_blank"
-                 rel="noopener">
-                 ${esc(r.address)}
-              </a>
-            </div>
-          `:""}
+<div>
 
-          <div>
-            ${esc(r.phone)}
-          </div>
-        </div>
+<strong>
+${esc(r.customer)}
+</strong>
 
-        <div class="right">
+<div>
+${esc(r.building)}
+${esc(r.room)}
+</div>
 
-          <strong>
-            ${esc(r.time)}
-          </strong>
+${r.address
+?
+`
 
-          <div>
-            ${esc(r.status)}
-          </div>
+<div>
 
-          ${r.address?`
-            <a href="${mapsUrl(r.address)}"
-               target="_blank"
-               rel="noopener">
-              <button class="primary">
-                マップ
-              </button>
-            </a>
-          `:""}
+<a
+class="map-link"
+href="${mapsUrl(r.address)}"
+target="_blank"
+rel="noopener">
+${esc(r.address)}
+</a>
 
-          <button
-            class="secondary"
-            onclick="editRow('${r.id}')">
-            編集
-          </button>
+</div>
 
-        </div>
+`
+:
+""
+}
 
-      </div>
-    `).join("")
-    :
-    `
-      <div style="color:#6b7280">
-        この日の予約はありません。
-      </div>
-    `;
+<div>
+${esc(r.phone)}
+</div>
+
+</div>
+
+<div class="right">
+
+<strong>
+${esc(r.time)}
+</strong>
+
+<div>
+${esc(r.status)}
+</div>
+
+<div>
+${esc(r.assignee||"担当未定")}
+</div>
+
+${r.address
+?
+`
+
+<a
+href="${mapsUrl(r.address)}"
+target="_blank"
+rel="noopener">
+
+<button class="primary">
+マップ
+</button>
+
+</a>
+
+`
+:
+""
+}
+
+<button
+class="secondary"
+onclick="editRow('${r.id}')">
+編集
+</button>
+
+</div>
+
+</div>
+
+`
+)
+.join("")
+:
+`
+
+<div style="color:#6b7280">
+この日の予約はありません。
+</div>
+
+`;
+
 }
 
 function render(){
 
-  renderDashboard();
-  renderList();
-  renderCalendar();
+renderDashboard();
 
-  $("listView")
-  .classList.toggle(
-    "hidden",
-    viewMode==="calendar"
-  );
+renderList();
 
-  $("calendarView")
-  .classList.toggle(
-    "hidden",
-    viewMode!=="calendar"
-  );
+renderCalendar();
 
-  $("activeViewBtn")
-  .classList.toggle(
-    "active",
-    viewMode==="active"
-  );
+$("listView")
+.classList.toggle(
+"hidden",
+viewMode==="calendar"
+);
 
-  $("calendarViewBtn")
-  .classList.toggle(
-    "active",
-    viewMode==="calendar"
-  );
+$("calendarView")
+.classList.toggle(
+"hidden",
+viewMode!=="calendar"
+);
 
-  $("trashViewBtn")
-  .classList.toggle(
-    "active",
-    viewMode==="trash"
-  );
+$("activeViewBtn")
+.classList.toggle(
+"active",
+viewMode==="active"
+);
+
+$("calendarViewBtn")
+.classList.toggle(
+"active",
+viewMode==="calendar"
+);
+
+$("trashViewBtn")
+.classList.toggle(
+"active",
+viewMode==="trash"
+);
+
 }
 
 function clearForm(){
 
-  $("form").reset();
+$("form").reset();
 
-  $("editId").value="";
+$("editId").value="";
 
-  $("status").value="未対応";
+$("status").value=
+"未対応";
 
-  $("saveBtn").textContent=
-    "予約を登録";
+$("saveBtn")
+.textContent=
+"予約を登録";
 
-  $("received").value=
-    isoLocal(new Date());
+$("received").value=
+isoLocal(
+new Date()
+);
+
 }
 
-function diffMessage(oldR,newR){
+function diffMessage(
+oldR,
+newR
+){
 
-  const map={
-    customer:"お客様名",
-    building:"建物名",
-    address:"住所",
-    room:"部屋番号",
-    count:"交換個数",
-    phone:"電話番号",
-    date:"希望日程",
-    time:"希望時間",
-    status:"対応状況",
-    received:"受付日",
-    note:"備考"
-  };
+const map={
 
-  const changes=[];
+customer:"お客様名",
+building:"建物名",
+address:"住所",
+room:"部屋番号",
+count:"交換個数",
+phone:"電話番号",
+date:"希望日程",
+time:"希望時間",
+status:"対応状況",
+assignee:"担当者",
+received:"受付日",
+note:"備考"
 
-  for(const [k,label] of Object.entries(map)){
+};
 
-    const a=
-      String(oldR?.[k]??"");
+const changes=[];
 
-    const b=
-      String(newR?.[k]??"");
+for(
+const [k,label]
+of Object.entries(map)
+){
 
-    if(a!==b){
-      changes.push(
-        `${label}: ${a||"（空欄）"} → ${b||"（空欄）"}`
-      );
-    }
-  }
+const a=
+String(
+oldR?.[k]??""
+);
 
-  return changes.join(" / ")
-    ||
-    "内容を更新";
+const b=
+String(
+newR?.[k]??""
+);
+
+if(a!==b){
+
+changes.push(
+`${label}: ${a||"（空欄）"} → ${b||"（空欄）"}`
+);
+
 }
 
-$("loginBtn").onclick=async()=>{
+}
 
-  $("loginStatus")
-  .textContent=
-    "ログイン中...";
+return (
+changes.join(" / ")
+||
+"内容を更新"
+);
 
-  try{
+}
 
-    await signInWithEmailAndPassword(
-      auth,
-      $("loginEmail").value.trim(),
-      $("loginPassword").value
-    );
+$("loginBtn")
+.onclick=
+async ()=>{
 
-    $("loginStatus")
-    .textContent="";
+$("loginStatus")
+.textContent=
+"ログイン中...";
 
-  }catch(e){
+try{
 
-    console.error(e);
+await signInWithEmailAndPassword(
 
-    $("loginStatus")
-    .textContent=
-      "メールアドレスまたはパスワードを確認してください。";
-  }
+auth,
+
+$("loginEmail")
+.value
+.trim(),
+
+$("loginPassword")
+.value
+
+);
+
+$("loginStatus")
+.textContent="";
+
+}
+catch(e){
+
+console.error(e);
+
+$("loginStatus")
+.textContent=
+"メールアドレスまたはパスワードを確認してください。";
+
+}
+
 };
 
 $("loginPassword")
 .addEventListener(
-  "keydown",
-  e=>{
-    if(e.key==="Enter"){
-      $("loginBtn").click();
-    }
-  }
+"keydown",
+e=>{
+
+if(e.key==="Enter")
+$("loginBtn").click();
+
+}
 );
 
-$("logoutBtn").onclick=
-  ()=>signOut(auth);
+$("logoutBtn")
+.onclick=
+()=>signOut(auth);
 
 onAuthStateChanged(
-  auth,
-  user=>{
+auth,
+user=>{
 
-    if(unsubscribe){
-      unsubscribe();
-      unsubscribe=null;
-    }
+if(unsubscribe){
 
-    if(user){
+unsubscribe();
 
-      $("loginScreen")
-      .classList.add(
-        "hidden"
-      );
+unsubscribe=null;
 
-      $("appScreen")
-      .classList.remove(
-        "hidden"
-      );
+}
 
-      $("userEmail")
-      .textContent=
-        user.email||"";
+if(user){
 
-      unsubscribe=
-        onSnapshot(
-          collection(
-            db,
-            "reservations"
-          ),
+$("loginScreen")
+.classList.add(
+"hidden"
+);
 
-          snap=>{
+$("appScreen")
+.classList.remove(
+"hidden"
+);
 
-            data=
-              snap.docs.map(
-                d=>({
-                  id:d.id,
-                  ...d.data()
-                })
-              );
+$("userEmail")
+.textContent=
+user.email||"";
 
-            render();
+unsubscribe=
+onSnapshot(
 
-          },
+collection(
+db,
+"reservations"
+),
 
-          err=>{
+snap=>{
 
-            console.error(err);
+data=
+snap.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
-            alert(
-              "予約データを読み込めませんでした。"
-            );
-          }
-        );
+render();
 
-      clearForm();
+},
 
-    }else{
+err=>{
 
-      data=[];
+console.error(err);
 
-      $("appScreen")
-      .classList.add(
-        "hidden"
-      );
+alert(
+"予約データを読み込めませんでした。"
+);
 
-      $("loginScreen")
-      .classList.remove(
-        "hidden"
-      );
+}
 
-      $("loginPassword")
-      .value="";
+);
 
-      render();
-    }
-  }
+clearForm();
+
+}
+else{
+
+data=[];
+
+$("appScreen")
+.classList.add(
+"hidden"
+);
+
+$("loginScreen")
+.classList.remove(
+"hidden"
+);
+
+$("loginPassword")
+.value="";
+
+render();
+
+}
+
+}
 );
 
 $("form")
 .addEventListener(
-  "submit",
-  async e=>{
+"submit",
+async e=>{
 
-    e.preventDefault();
+e.preventDefault();
 
-    if(!auth.currentUser){
-      alert(
-        "ログインしてください。"
-      );
-      return;
-    }
+if(!auth.currentUser){
 
-    const editId=
-      $("editId").value;
+alert(
+"ログインしてください。"
+);
 
-    const rec={
+return;
 
-      customer:
-        $("customer")
-        .value
-        .trim(),
+}
 
-      building:
-        $("building")
-        .value
-        .trim(),
+const editId=
+$("editId").value;
 
-      address:
-        $("address")
-        .value
-        .trim(),
+const rec={
 
-      room:
-        $("room")
-        .value
-        .trim(),
+customer:
+$("customer")
+.value
+.trim(),
 
-      count:
-        $("count").value,
+building:
+$("building")
+.value
+.trim(),
 
-      phone:
-        $("phone")
-        .value
-        .trim(),
+address:
+$("address")
+.value
+.trim(),
 
-      date:
-        $("date").value,
+room:
+$("room")
+.value
+.trim(),
 
-      time:
-        $("time").value,
+count:
+$("count").value,
 
-      status:
-        $("status").value,
+phone:
+$("phone")
+.value
+.trim(),
 
-      received:
-        $("received").value,
+date:
+$("date").value,
 
-      note:
-        $("note")
-        .value
-        .trim(),
+time:
+$("time").value,
 
-      updatedAt:
-        serverTimestamp(),
+status:
+$("status").value,
 
-      updatedBy:
-        auth.currentUser.email||""
-    };
+assignee:
+$("assignee")
+.value
+.trim(),
 
-    try{
+received:
+$("received").value,
 
-      if(editId){
+note:
+$("note")
+.value
+.trim(),
 
-        const oldR=
-          data.find(
-            x=>x.id===editId
-          );
+updatedAt:
+serverTimestamp(),
 
-        await updateDoc(
+updatedBy:
+auth.currentUser.email||""
 
-          doc(
-            db,
-            "reservations",
-            editId
-          ),
+};
 
-          {
-            ...rec,
+const dupes=
+duplicateRows(
+rec.date,
+rec.time,
+editId
+);
 
-            history:
-              arrayUnion({
-                at:nowText(),
-                by:auth.currentUser.email||"",
-                message:
-                  diffMessage(
-                    oldR,
-                    rec
-                  )
-              })
-          }
-        );
+if(dupes.length){
 
-      }else{
+const names=
+dupes
+.slice(
+0,
+3
+)
+.map(
+x=>
+`${x.customer||"予約"}（${x.building||""} ${x.room||""}）`
+)
+.join("\n");
 
-        await addDoc(
+const more=
+dupes.length>3
+?
+`\nほか${dupes.length-3}件`
+:
+"";
 
-          collection(
-            db,
-            "reservations"
-          ),
+const ok=
+confirm(
 
-          {
-            ...rec,
+`⚠️ 同じ日時に既存予約があります。
 
-            isDeleted:false,
+${rec.date} ${rec.time}
 
-            createdAt:
-              serverTimestamp(),
+${names}${more}
 
-            createdBy:
-              auth.currentUser.email||"",
+それでも保存しますか？`
 
-            history:[
-              {
-                at:nowText(),
-                by:auth.currentUser.email||"",
-                message:
-                  "予約を新規登録"
-              }
-            ]
-          }
-        );
-      }
+);
 
-      clearForm();
+if(!ok)
+return;
 
-    }catch(err){
+}
 
-      console.error(err);
+try{
 
-      alert(
-        "予約を保存できませんでした。"
-      );
-    }
-  }
+if(editId){
+
+const oldR=
+data.find(
+x=>x.id===editId
+);
+
+await updateDoc(
+
+doc(
+db,
+"reservations",
+editId
+),
+
+{
+
+...rec,
+
+history:
+arrayUnion({
+
+at:
+nowText(),
+
+by:
+auth.currentUser.email||"",
+
+message:
+diffMessage(
+oldR,
+rec
+)
+
+})
+
+}
+
+);
+
+}
+else{
+
+await addDoc(
+
+collection(
+db,
+"reservations"
+),
+
+{
+
+...rec,
+
+isDeleted:false,
+
+createdAt:
+serverTimestamp(),
+
+createdBy:
+auth.currentUser.email||"",
+
+history:[
+
+{
+
+at:
+nowText(),
+
+by:
+auth.currentUser.email||"",
+
+message:
+"予約を新規登録"
+
+}
+
+]
+
+}
+
+);
+
+}
+
+clearForm();
+
+}
+catch(err){
+
+console.error(err);
+
+alert(
+"予約を保存できませんでした。"
+);
+
+}
+
+}
 );
 
 $("clearBtn")
 .onclick=
-  clearForm;
+clearForm;
 
 window.editRow=
 id=>{
 
-  const r=
-    data.find(
-      x=>x.id===id
-    );
+const r=
+data.find(
+x=>x.id===id
+);
 
-  if(!r)
-    return;
+if(!r)
+return;
 
-  $("editId").value=
-    r.id;
+$("editId").value=
+r.id;
 
-  for(
-    const k
-    of
-    [
-      "customer",
-      "building",
-      "address",
-      "room",
-      "count",
-      "phone",
-      "date",
-      "time",
-      "status",
-      "received",
-      "note"
-    ]
-  ){
-    $(k).value=
-      r[k]||"";
-  }
+for(
+const k
+of
+[
+"customer",
+"building",
+"address",
+"room",
+"count",
+"phone",
+"date",
+"time",
+"status",
+"assignee",
+"received",
+"note"
+]
+){
 
-  $("saveBtn")
-  .textContent=
-    "変更を保存";
+$(k).value=
+r[k]||"";
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+}
+
+$("saveBtn")
+.textContent=
+"変更を保存";
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
 };
 
 window.quickStatus=
 async(
-  id,
-  newStatus
+id,
+newStatus
 )=>{
 
-  const r=
-    data.find(
-      x=>x.id===id
-    );
+const r=
+data.find(
+x=>x.id===id
+);
 
-  if(
-    !r
-    ||
-    r.status===newStatus
-  )
-    return;
+if(
+!r
+||
+r.status===newStatus
+)
+return;
 
-  try{
+try{
 
-    await updateDoc(
+await updateDoc(
 
-      doc(
-        db,
-        "reservations",
-        id
-      ),
+doc(
+db,
+"reservations",
+id
+),
 
-      {
-        status:
-          newStatus,
+{
 
-        updatedAt:
-          serverTimestamp(),
+status:
+newStatus,
 
-        updatedBy:
-          auth.currentUser.email||"",
+updatedAt:
+serverTimestamp(),
 
-        history:
-          arrayUnion({
-            at:nowText(),
-            by:auth.currentUser.email||"",
-            message:
-              `対応状況: ${r.status||"未設定"} → ${newStatus}`
-          })
-      }
-    );
+updatedBy:
+auth.currentUser.email||"",
 
-  }catch(err){
+history:
+arrayUnion({
 
-    console.error(err);
+at:
+nowText(),
 
-    alert(
-      "対応状況を変更できませんでした。"
-    );
-  }
+by:
+auth.currentUser.email||"",
+
+message:
+`対応状況: ${r.status||"未設定"} → ${newStatus}`
+
+})
+
+}
+
+);
+
+}
+catch(err){
+
+console.error(err);
+
+alert(
+"対応状況を変更できませんでした。"
+);
+
+}
+
 };
 
 window.softDelete=
 async id=>{
 
-  const r=
-    data.find(
-      x=>x.id===id
-    );
+const r=
+data.find(
+x=>x.id===id
+);
 
-  if(!r)
-    return;
+if(!r)
+return;
 
-  if(
-    !confirm(
-      `「${r.customer||"この予約"}」をゴミ箱へ移動しますか？\n後から復元できます。`
-    )
-  )
-    return;
+if(
+!confirm(
+`「${r.customer||"この予約"}」をゴミ箱へ移動しますか？
+後から復元できます。`
+)
+)
+return;
 
-  try{
+try{
 
-    await updateDoc(
+await updateDoc(
 
-      doc(
-        db,
-        "reservations",
-        id
-      ),
+doc(
+db,
+"reservations",
+id
+),
 
-      {
-        isDeleted:true,
+{
 
-        deletedAt:
-          serverTimestamp(),
+isDeleted:true,
 
-        deletedAtText:
-          nowText(),
+deletedAt:
+serverTimestamp(),
 
-        deletedBy:
-          auth.currentUser.email||"",
+deletedAtText:
+nowText(),
 
-        history:
-          arrayUnion({
-            at:nowText(),
-            by:auth.currentUser.email||"",
-            message:
-              "ゴミ箱へ移動"
-          })
-      }
-    );
+deletedBy:
+auth.currentUser.email||"",
 
-  }catch(err){
+history:
+arrayUnion({
 
-    console.error(err);
+at:
+nowText(),
 
-    alert(
-      "ゴミ箱へ移動できませんでした。"
-    );
-  }
+by:
+auth.currentUser.email||"",
+
+message:
+"ゴミ箱へ移動"
+
+})
+
+}
+
+);
+
+}
+catch(err){
+
+console.error(err);
+
+alert(
+"ゴミ箱へ移動できませんでした。"
+);
+
+}
+
 };
 
 window.restoreRow=
 async id=>{
 
-  try{
+try{
 
-    await updateDoc(
+await updateDoc(
 
-      doc(
-        db,
-        "reservations",
-        id
-      ),
+doc(
+db,
+"reservations",
+id
+),
 
-      {
-        isDeleted:false,
+{
 
-        deletedAt:null,
+isDeleted:false,
 
-        deletedAtText:"",
+deletedAt:null,
 
-        deletedBy:"",
+deletedAtText:"",
 
-        updatedAt:
-          serverTimestamp(),
+deletedBy:"",
 
-        updatedBy:
-          auth.currentUser.email||"",
+updatedAt:
+serverTimestamp(),
 
-        history:
-          arrayUnion({
-            at:nowText(),
-            by:auth.currentUser.email||"",
-            message:
-              "ゴミ箱から復元"
-          })
-      }
-    );
+updatedBy:
+auth.currentUser.email||"",
 
-  }catch(err){
+history:
+arrayUnion({
 
-    console.error(err);
+at:
+nowText(),
 
-    alert(
-      "復元できませんでした。"
-    );
-  }
+by:
+auth.currentUser.email||"",
+
+message:
+"ゴミ箱から復元"
+
+})
+
+}
+
+);
+
+}
+catch(err){
+
+console.error(err);
+
+alert(
+"復元できませんでした。"
+);
+
+}
+
 };
 
 window.permanentDelete=
 async id=>{
 
-  const r=
-    data.find(
-      x=>x.id===id
-    );
+const r=
+data.find(
+x=>x.id===id
+);
 
-  if(!r)
-    return;
+if(!r)
+return;
 
-  if(
-    !confirm(
-      `「${r.customer||"この予約"}」を完全に削除しますか？\nこの操作は元に戻せません。`
-    )
-  )
-    return;
+if(
+!confirm(
+`「${r.customer||"この予約"}」を完全に削除しますか？
+この操作は元に戻せません。`
+)
+)
+return;
 
-  if(
-    !confirm(
-      "本当に完全削除しますか？"
-    )
-  )
-    return;
+if(
+!confirm(
+"本当に完全削除しますか？"
+)
+)
+return;
 
-  try{
+try{
 
-    await deleteDoc(
-      doc(
-        db,
-        "reservations",
-        id
-      )
-    );
+await deleteDoc(
 
-  }catch(err){
+doc(
+db,
+"reservations",
+id
+)
 
-    console.error(err);
+);
 
-    alert(
-      "完全削除できませんでした。"
-    );
-  }
+}
+catch(err){
+
+console.error(err);
+
+alert(
+"完全削除できませんでした。"
+);
+
+}
+
 };
 
 $("search")
 .addEventListener(
-  "input",
-  render
+"input",
+render
 );
 
 $("filterStatus")
 .addEventListener(
-  "change",
-  render
+"change",
+render
 );
 
 $("filterDate")
 .addEventListener(
-  "change",
-  render
+"change",
+render
 );
 
 document
 .querySelectorAll(
-  "[data-quick]"
+"[data-quick]"
 )
 .forEach(
-  btn=>
-  btn.onclick=
-  ()=>{
+btn=>
+btn.onclick=
+()=>{
 
-    $("filterDate").value=
-      btn.dataset.quick;
+$("filterDate").value=
+btn.dataset.quick;
 
-    render();
-  }
+render();
+
+}
 );
 
 $("activeViewBtn")
 .onclick=
 ()=>{
 
-  viewMode=
-    "active";
+viewMode=
+"active";
 
-  render();
+render();
+
 };
 
 $("calendarViewBtn")
 .onclick=
 ()=>{
 
-  viewMode=
-    "calendar";
+viewMode=
+"calendar";
 
-  render();
+render();
+
 };
 
 $("trashViewBtn")
 .onclick=
 ()=>{
 
-  viewMode=
-    "trash";
+viewMode=
+"trash";
 
-  render();
+render();
+
 };
 
 $("prevMonth")
 .onclick=
 ()=>{
 
-  calendarCursor=
-    new Date(
-      calendarCursor.getFullYear(),
-      calendarCursor.getMonth()-1,
-      1
-    );
+calendarCursor=
+new Date(
+calendarCursor.getFullYear(),
+calendarCursor.getMonth()-1,
+1
+);
 
-  selectedCalendarDate="";
+selectedCalendarDate="";
 
-  renderCalendar();
+renderCalendar();
+
 };
 
 $("nextMonth")
 .onclick=
 ()=>{
 
-  calendarCursor=
-    new Date(
-      calendarCursor.getFullYear(),
-      calendarCursor.getMonth()+1,
-      1
-    );
+calendarCursor=
+new Date(
+calendarCursor.getFullYear(),
+calendarCursor.getMonth()+1,
+1
+);
 
-  selectedCalendarDate="";
+selectedCalendarDate="";
 
-  renderCalendar();
+renderCalendar();
+
 };
 
 $("todayMonthBtn")
 .onclick=
 ()=>{
 
-  const n=
-    new Date();
+const n=
+new Date();
 
-  calendarCursor=
-    new Date(
-      n.getFullYear(),
-      n.getMonth(),
-      1
-    );
+calendarCursor=
+new Date(
+n.getFullYear(),
+n.getMonth(),
+1
+);
 
-  selectedCalendarDate=
-    isoLocal(n);
+selectedCalendarDate=
+isoLocal(n);
 
-  renderCalendar();
+renderCalendar();
+
 };
 
 $("csvBtn")
 .onclick=
 ()=>{
 
-  const rows=
-    filtered();
+const rows=
+filtered();
 
-  const head=[
-    "お客様名",
-    "建物名",
-    "住所",
-    "部屋番号",
-    "交換個数",
-    "電話番号",
-    "希望日程",
-    "希望時間",
-    "対応状況",
-    "受付日",
-    "備考"
-  ];
+const head=[
 
-  const all=[
-    head,
-    ...rows.map(
-      r=>[
-        r.customer,
-        r.building,
-        r.address||"",
-        r.room,
-        r.count,
-        r.phone,
-        r.date,
-        r.time,
-        r.status,
-        r.received||"",
-        r.note||""
-      ]
-    )
-  ];
+"お客様名",
+"建物名",
+"住所",
+"部屋番号",
+"交換個数",
+"電話番号",
+"希望日程",
+"希望時間",
+"対応状況",
+"担当者",
+"受付日",
+"備考"
 
-  const csv=
-    all.map(
-      row=>
-        row.map(
-          v=>
-          `"${String(v??"").replace(/"/g,'""')}"`
-        )
-        .join(",")
-    )
-    .join("\r\n");
+];
 
-  const blob=
-    new Blob(
-      [
-        "\uFEFF"+csv
-      ],
-      {
-        type:
-          "text/csv;charset=utf-8;"
-      }
-    );
+const all=[
 
-  const a=
-    document.createElement(
-      "a"
-    );
+head,
 
-  a.href=
-    URL.createObjectURL(
-      blob
-    );
+...rows.map(
+r=>[
 
-  a.download=
-    `予約一覧_${isoLocal(new Date())}.csv`;
+r.customer,
+r.building,
+r.address||"",
+r.room,
+r.count,
+r.phone,
+r.date,
+r.time,
+r.status,
+r.assignee||"",
+r.received||"",
+r.note||""
 
-  a.click();
+]
+)
 
-  URL.revokeObjectURL(
-    a.href
-  );
+];
+
+const csv=
+all.map(
+row=>
+row.map(
+v=>
+`"${String(v??"").replace(/"/g,'""')}"`
+)
+.join(",")
+)
+.join("\r\n");
+
+const blob=
+new Blob(
+
+[
+"\uFEFF"+csv
+],
+
+{
+type:
+"text/csv;charset=utf-8;"
+}
+
+);
+
+const a=
+document.createElement(
+"a"
+);
+
+a.href=
+URL.createObjectURL(
+blob
+);
+
+a.download=
+`予約一覧_${isoLocal(new Date())}.csv`;
+
+a.click();
+
+URL.revokeObjectURL(
+a.href
+);
+
 };
 
 clearForm();
 
 </script>
+
 </body>
 </html>
