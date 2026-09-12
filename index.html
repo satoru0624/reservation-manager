@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f2937">
-<title>予約管理アプリ</title>
+<title>予約管理アプリ Ver.3</title>
 
 <style>
 *{box-sizing:border-box}
@@ -58,10 +58,10 @@ padding:12px;
 border:1px solid #d1d5db;
 border-radius:10px;
 font-size:16px;
-background:white
+background:#fff
 }
 
-.actions,.toolbar,.quick{
+.actions,.toolbar,.quick,.view-tabs{
 display:flex;
 gap:8px;
 flex-wrap:wrap
@@ -74,28 +74,15 @@ border:0;
 border-radius:10px;
 padding:11px 14px;
 font-weight:700;
-font-size:14px
+font-size:14px;
+cursor:pointer
 }
 
-.primary{
-background:#2563eb;
-color:white
-}
-
-.secondary{
-background:#e5e7eb;
-color:#111827
-}
-
-.danger{
-background:#fee2e2;
-color:#991b1b
-}
-
-.success{
-background:#dcfce7;
-color:#166534
-}
+.primary{background:#2563eb;color:#fff}
+.secondary{background:#e5e7eb;color:#111827}
+.danger{background:#fee2e2;color:#991b1b}
+.success{background:#dcfce7;color:#166534}
+.warning{background:#fef3c7;color:#92400e}
 
 .filters{
 display:grid;
@@ -104,25 +91,17 @@ gap:8px;
 margin-bottom:10px
 }
 
-.quick{margin-bottom:10px}
+.quick,.view-tabs{margin-bottom:10px}
+
+.view-tabs button.active{
+background:#111827;
+color:#fff
+}
 
 .summary{
 font-size:14px;
 margin:10px 0
 }
-
-.status{
-display:inline-block;
-padding:4px 8px;
-border-radius:999px;
-font-size:12px;
-font-weight:700
-}
-
-.s-new{background:#dbeafe;color:#1e40af}
-.s-change{background:#fef3c7;color:#92400e}
-.s-done{background:#dcfce7;color:#166534}
-.s-cancel{background:#fee2e2;color:#991b1b}
 
 .desktop-table{
 overflow:auto;
@@ -133,7 +112,7 @@ border-radius:10px
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1000px
+min-width:1120px
 }
 
 th,td{
@@ -154,6 +133,11 @@ border:1px solid #e5e7eb;
 border-radius:12px;
 padding:14px;
 margin-bottom:10px
+}
+
+.r-card.deleted{
+opacity:.82;
+background:#fafafa
 }
 
 .r-top{
@@ -200,13 +184,20 @@ text-decoration:none
 
 .note{white-space:pre-wrap}
 
+.status-select{
+padding:7px 8px;
+font-size:13px;
+border-radius:8px;
+min-width:120px
+}
+
 #loginScreen{
 max-width:460px;
 margin:40px auto
 }
 
 .loginBox{
-background:white;
+background:#fff;
 padding:22px;
 border-radius:16px;
 box-shadow:0 2px 12px rgba(0,0,0,.08)
@@ -217,13 +208,8 @@ text-align:center;
 margin-bottom:20px
 }
 
-.loginBox input{
-margin-bottom:12px
-}
-
-.loginBox button{
-width:100%
-}
+.loginBox input{margin-bottom:12px}
+.loginBox button{width:100%}
 
 .loginStatus{
 margin-top:12px;
@@ -247,35 +233,47 @@ color:#166534;
 font-weight:700
 }
 
-.hidden{
-display:none!important
+.hidden{display:none!important}
+
+.history-box{
+margin-top:12px;
+border-top:1px solid #e5e7eb;
+padding-top:10px
+}
+
+.history-box summary{
+cursor:pointer;
+font-weight:700;
+font-size:13px
+}
+
+.history-item{
+font-size:12px;
+color:#374151;
+padding:7px 0;
+border-bottom:1px dashed #e5e7eb;
+white-space:normal
+}
+
+.history-time{color:#6b7280}
+
+.deleted-info{
+margin-top:8px;
+padding:8px;
+background:#f3f4f6;
+border-radius:8px;
+font-size:12px;
+color:#4b5563
 }
 
 @media(max-width:760px){
 
-.form-grid{
-grid-template-columns:1fr
-}
-
-.full{
-grid-column:auto
-}
-
-.filters{
-grid-template-columns:1fr
-}
-
-.desktop-table{
-display:none
-}
-
-.mobile-list{
-display:block
-}
-
-main{
-padding:10px
-}
+.form-grid{grid-template-columns:1fr}
+.full{grid-column:auto}
+.filters{grid-template-columns:1fr}
+.desktop-table{display:none}
+.mobile-list{display:block}
+main{padding:10px}
 
 }
 
@@ -286,15 +284,14 @@ size:A4 landscape;
 margin:8mm
 }
 
-body{
-background:white
-}
+body{background:#fff}
 
 header,
 .input-card,
 .toolbar,
 .filters,
 .quick,
+.view-tabs,
 .mobile-list,
 .no-print,
 .userbar{
@@ -324,7 +321,7 @@ table-layout:fixed
 }
 
 th,td{
-font-size:8.5px;
+font-size:8.2px;
 padding:4px;
 white-space:normal;
 word-break:break-word
@@ -349,14 +346,12 @@ word-break:break-word
 <input
 id="loginEmail"
 type="email"
-placeholder="メールアドレス"
-autocomplete="username">
+placeholder="メールアドレス">
 
 <input
 id="loginPassword"
 type="password"
-placeholder="パスワード"
-autocomplete="current-password">
+placeholder="パスワード">
 
 <button
 id="loginBtn"
@@ -415,9 +410,7 @@ id="editId">
 
 <div class="field">
 
-<label>
-お客様名 *
-</label>
+<label>お客様名 *</label>
 
 <input
 id="customer"
@@ -428,9 +421,7 @@ required>
 
 <div class="field">
 
-<label>
-建物名（アパート） *
-</label>
+<label>建物名（アパート） *</label>
 
 <input
 id="building"
@@ -441,9 +432,7 @@ required>
 
 <div class="field">
 
-<label>
-部屋番号 *
-</label>
+<label>部屋番号 *</label>
 
 <input
 id="room"
@@ -454,9 +443,7 @@ required>
 
 <div class="field">
 
-<label>
-交換個数 *
-</label>
+<label>交換個数 *</label>
 
 <input
 id="count"
@@ -469,9 +456,7 @@ required>
 
 <div class="field full">
 
-<label>
-電話番号 *
-</label>
+<label>電話番号 *</label>
 
 <input
 id="phone"
@@ -483,9 +468,7 @@ required>
 
 <div class="field">
 
-<label>
-希望日程 *
-</label>
+<label>希望日程 *</label>
 
 <input
 id="date"
@@ -497,9 +480,7 @@ required>
 
 <div class="field">
 
-<label>
-希望時間 *
-</label>
+<label>希望時間 *</label>
 
 <input
 id="time"
@@ -511,27 +492,16 @@ required>
 
 <div class="field">
 
-<label>
-対応状況
-</label>
+<label>対応状況</label>
 
 <select id="status">
 
-<option>
-未対応
-</option>
-
-<option>
-日程変更
-</option>
-
-<option>
-完了
-</option>
-
-<option>
-キャンセル
-</option>
+<option>未対応</option>
+<option>日程調整中</option>
+<option>日程確定</option>
+<option>日程変更</option>
+<option>完了</option>
+<option>キャンセル</option>
 
 </select>
 
@@ -540,9 +510,7 @@ required>
 
 <div class="field">
 
-<label>
-受付日
-</label>
+<label>受付日</label>
 
 <input
 id="received"
@@ -553,9 +521,7 @@ type="date">
 
 <div class="field full">
 
-<label>
-備考
-</label>
+<label>備考</label>
 
 <textarea
 id="note"
@@ -594,6 +560,26 @@ id="clearBtn">
 
 <h2>予約一覧</h2>
 
+<div class="view-tabs no-print">
+
+<button
+id="activeViewBtn"
+class="secondary active">
+通常一覧
+</button>
+
+<button
+id="trashViewBtn"
+class="secondary">
+ゴミ箱
+<span id="trashCount"></span>
+</button>
+
+</div>
+
+
+<div id="normalControls">
+
 <div class="filters no-print">
 
 <input
@@ -607,6 +593,8 @@ placeholder="名前・建物名・電話番号で検索">
 </option>
 
 <option>未対応</option>
+<option>日程調整中</option>
+<option>日程確定</option>
 <option>日程変更</option>
 <option>完了</option>
 <option>キャンセル</option>
@@ -686,6 +674,8 @@ A4横で印刷
 
 </div>
 
+</div>
+
 
 <div
 class="summary"
@@ -708,28 +698,16 @@ id="mobileList">
 <tr>
 
 <th>希望日程</th>
-
 <th>希望時間</th>
-
 <th>お客様名</th>
-
 <th>建物名</th>
-
 <th>部屋番号</th>
-
 <th>交換個数</th>
-
 <th>電話番号</th>
-
 <th>状況</th>
-
 <th>受付日</th>
-
 <th>備考</th>
-
-<th class="no-print">
-操作
-</th>
+<th class="no-print">操作</th>
 
 </tr>
 
@@ -773,13 +751,14 @@ doc,
 updateDoc,
 deleteDoc,
 onSnapshot,
-serverTimestamp
+serverTimestamp,
+arrayUnion
 }
 from
 "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-const firebaseConfig = {
+const firebaseConfig={
 
 apiKey:
 "AIzaSyDAojY61XI6ZiCCVkRcQxLRLHK2aI0U3Aw",
@@ -802,28 +781,42 @@ appId:
 };
 
 
-const app =
+const app=
 initializeApp(
 firebaseConfig
 );
 
 
-const auth =
+const auth=
 getAuth(app);
 
 
-const db =
+const db=
 getFirestore(app);
 
 
-const $ =
-id =>
+const $=
+id=>
 document.getElementById(id);
 
 
 let data=[];
 
 let unsubscribe=null;
+
+let viewMode="active";
+
+
+const STATUS_OPTIONS=[
+
+"未対応",
+"日程調整中",
+"日程確定",
+"日程変更",
+"完了",
+"キャンセル"
+
+];
 
 
 function esc(v=""){
@@ -832,11 +825,13 @@ return String(v)
 .replace(
 /[&<>"']/g,
 m=>({
+
 "&":"&amp;",
 "<":"&lt;",
 ">":"&gt;",
 '"':"&quot;",
 "'":"&#39;"
+
 }[m])
 );
 
@@ -851,24 +846,19 @@ return "";
 const p=
 s.split("-");
 
-if(p.length!==3)
-return s;
-
-return (
-p[0]+
-"/"+
-p[1]+
-"/"+
-p[2]
-);
+return p.length===3
+?
+`${p[0]}/${p[1]}/${p[2]}`
+:
+s;
 
 }
 
 
 function isoLocal(d){
 
-const z =
-n =>
+const z=
+n=>
 String(n).padStart(2,"0");
 
 return (
@@ -882,122 +872,194 @@ z(d.getDate())
 }
 
 
-function inWeek(dateStr){
+function nowText(){
 
-if(!dateStr)
-return false;
-
-const now =
+const d=
 new Date();
 
-now.setHours(0,0,0,0);
-
-const day =
-now.getDay() || 7;
-
-const monday =
-new Date(now);
-
-monday.setDate(
-now.getDate()-day+1
-);
-
-const sunday =
-new Date(monday);
-
-sunday.setDate(
-monday.getDate()+6
-);
-
-const d =
-new Date(
-dateStr+"T00:00:00"
-);
+const z=
+n=>
+String(n).padStart(2,"0");
 
 return (
-d>=monday &&
-d<=sunday
+
+d.getFullYear()
++"/"+
+z(d.getMonth()+1)
++"/"+
+z(d.getDate())
++" "+
+z(d.getHours())
++":"+
+z(d.getMinutes())
+
 );
 
 }
 
 
-function dateMatch(r,mode){
+function inWeek(s){
 
-if(mode==="all")
+if(!s)
+return false;
+
+
+const n=
+new Date();
+
+n.setHours(
+0,
+0,
+0,
+0
+);
+
+
+const day=
+n.getDay() || 7;
+
+
+const m=
+new Date(n);
+
+m.setDate(
+n.getDate()-day+1
+);
+
+
+const su=
+new Date(m);
+
+su.setDate(
+m.getDate()+6
+);
+
+
+const d=
+new Date(
+s+"T00:00:00"
+);
+
+
+return (
+d>=m &&
+d<=su
+);
+
+}
+
+
+function dateMatch(r,m){
+
+if(m==="all")
 return true;
 
 
-const today =
+const t=
 isoLocal(
 new Date()
 );
 
 
-const tmr =
+const x=
 new Date();
 
-tmr.setDate(
-tmr.getDate()+1
+x.setDate(
+x.getDate()+1
 );
 
 
-const tomorrow =
-isoLocal(tmr);
+if(m==="today")
+return r.date===t;
 
 
-if(mode==="today")
-return r.date===today;
+if(m==="tomorrow")
+return r.date===isoLocal(x);
 
 
-if(mode==="tomorrow")
-return r.date===tomorrow;
-
-
-if(mode==="week")
+if(m==="week")
 return inWeek(r.date);
 
 
-if(mode==="future")
-return r.date>=today;
+if(m==="future")
+return r.date>=t;
 
 
 return true;
+
+}
+
+
+function activeRows(){
+
+return data.filter(
+r=>!r.isDeleted
+);
+
+}
+
+
+function deletedRows(){
+
+return data.filter(
+r=>r.isDeleted
+);
 
 }
 
 
 function filtered(){
 
-const q =
+let rows=
+viewMode==="trash"
+?
+deletedRows()
+:
+activeRows();
+
+
+if(viewMode==="trash"){
+
+return [...rows]
+.sort(
+(a,b)=>
+(b.deletedAtText||"")
+.localeCompare(
+a.deletedAtText||""
+)
+);
+
+}
+
+
+const q=
 $("search")
 .value
 .trim()
 .toLowerCase();
 
 
-const fs =
+const fs=
 $("filterStatus").value;
 
 
-const fd =
+const fd=
 $("filterDate").value;
 
 
-return [...data]
+return [...rows]
 
-.filter(r =>
+.filter(
+r=>
 (!fs || r.status===fs)
 &&
 dateMatch(r,fd)
 )
 
-.filter(r=>{
-
-if(!q)
-return true;
-
-const text =
+.filter(
+r=>
+!q
+||
 [
 r.customer,
 r.building,
@@ -1006,112 +1068,236 @@ r.phone,
 r.note
 ]
 .join(" ")
-.toLowerCase();
+.toLowerCase()
+.includes(q)
+)
 
-return text.includes(q);
-
-})
-
-.sort((a,b)=>{
-
-const A =
+.sort(
+(a,b)=>
+(
 (a.date||"")
-+" "
-+(a.time||"");
-
-const B =
++" "+
+(a.time||"")
+)
+.localeCompare(
 (b.date||"")
-+" "
-+(b.time||"");
-
-return A.localeCompare(B);
-
-});
++" "+
+(b.time||"")
+)
+);
 
 }
 
 
-function sclass(s){
+function statusSelect(r){
 
-if(s==="完了")
-return "s-done";
+return `
 
-if(s==="日程変更")
-return "s-change";
+<select
+class="status-select"
+onchange="quickStatus('${r.id}',this.value)">
 
-if(s==="キャンセル")
-return "s-cancel";
+${STATUS_OPTIONS
+.map(
+s=>
+`
+<option
+${s===r.status ? "selected" : ""}>
+${s}
+</option>
+`
+)
+.join("")}
 
-return "s-new";
+</select>
+
+`;
+
+}
+
+
+function historyHtml(r){
+
+const h=
+Array.isArray(r.history)
+?
+[...r.history].reverse()
+:
+[];
+
+
+if(!h.length)
+return "";
+
+
+return `
+
+<details class="history-box">
+
+<summary>
+変更履歴（${h.length}件）
+</summary>
+
+${h.map(
+x=>
+`
+
+<div class="history-item">
+
+<span class="history-time">
+${esc(x.at||"")}
+</span>
+
+<br>
+
+${esc(x.message||"")}
+
+<br>
+
+<span class="history-time">
+${esc(x.by||"")}
+</span>
+
+</div>
+
+`
+).join("")}
+
+</details>
+
+`;
 
 }
 
 
 function render(){
 
-const rows =
+const rows=
 filtered();
 
 
-$("summary").textContent =
-"表示件数："
-+rows.length+
-"件 ／ 登録総数："
-+data.length+
-"件";
+const active=
+activeRows().length;
 
 
-$("tbody").innerHTML =
-rows.map(r=>`
+const trash=
+deletedRows().length;
+
+
+$("trashCount")
+.textContent=
+trash
+?
+`(${trash})`
+:
+"";
+
+
+$("summary")
+.textContent=
+viewMode==="trash"
+?
+`ゴミ箱：${rows.length}件`
+:
+`表示件数：${rows.length}件 ／ 登録総数：${active}件`;
+
+
+$("normalControls")
+.classList.toggle(
+"hidden",
+viewMode==="trash"
+);
+
+
+$("activeViewBtn")
+.classList.toggle(
+"active",
+viewMode==="active"
+);
+
+
+$("trashViewBtn")
+.classList.toggle(
+"active",
+viewMode==="trash"
+);
+
+
+$("tbody")
+.innerHTML=
+rows.map(
+r=>
+viewMode==="trash"
+?
+`
 
 <tr>
 
+<td>${esc(fmtDate(r.date))}</td>
+
+<td>${esc(r.time)}</td>
+
+<td>${esc(r.customer)}</td>
+
+<td>${esc(r.building)}</td>
+
+<td>${esc(r.room)}</td>
+
+<td>${esc(r.count)}</td>
+
+<td>${esc(r.phone)}</td>
+
+<td>${esc(r.status)}</td>
+
+<td>${esc(fmtDate(r.received||""))}</td>
+
+<td>${esc(r.note||"")}</td>
+
+<td class="no-print">
+
+<button
+class="success"
+onclick="restoreRow('${r.id}')">
+復元
+</button>
+
+<button
+class="danger"
+onclick="permanentDelete('${r.id}')">
+完全削除
+</button>
+
+</td>
+
+</tr>
+
+`
+:
+`
+
+<tr>
+
+<td>${esc(fmtDate(r.date))}</td>
+
+<td>${esc(r.time)}</td>
+
+<td>${esc(r.customer)}</td>
+
+<td>${esc(r.building)}</td>
+
+<td>${esc(r.room)}</td>
+
+<td>${esc(r.count)}</td>
+
+<td>${esc(r.phone)}</td>
+
 <td>
-${esc(fmtDate(r.date))}
+${statusSelect(r)}
 </td>
 
-<td>
-${esc(r.time)}
-</td>
+<td>${esc(fmtDate(r.received||""))}</td>
 
-<td>
-${esc(r.customer)}
-</td>
-
-<td>
-${esc(r.building)}
-</td>
-
-<td>
-${esc(r.room)}
-</td>
-
-<td>
-${esc(r.count)}
-</td>
-
-<td>
-${esc(r.phone)}
-</td>
-
-<td>
-
-<span
-class="status ${sclass(r.status)}">
-
-${esc(r.status)}
-
-</span>
-
-</td>
-
-<td>
-${esc(fmtDate(r.received||""))}
-</td>
-
-<td class="note">
-${esc(r.note||"")}
-</td>
+<td>${esc(r.note||"")}</td>
 
 <td class="no-print">
 
@@ -1122,20 +1308,94 @@ onclick="editRow('${r.id}')">
 </button>
 
 <button
-class="danger"
-onclick="deleteRow('${r.id}')">
-削除
+class="warning"
+onclick="softDelete('${r.id}')">
+ゴミ箱へ
 </button>
 
 </td>
 
 </tr>
 
-`).join("");
+`
+)
+.join("");
 
 
-$("mobileList").innerHTML =
-rows.map(r=>`
+$("mobileList")
+.innerHTML=
+rows.map(
+r=>
+viewMode==="trash"
+?
+`
+
+<div class="r-card deleted">
+
+<div class="r-top">
+
+<div>
+
+<div class="r-name">
+${esc(r.customer)}
+</div>
+
+<div>
+${esc(r.building)}
+${esc(r.room)}
+</div>
+
+</div>
+
+<div style="text-align:right">
+
+<div class="r-date">
+${esc(fmtDate(r.date))}
+</div>
+
+<div style="font-weight:800">
+${esc(r.time)}
+</div>
+
+</div>
+
+</div>
+
+<div class="deleted-info">
+
+削除日時：
+${esc(r.deletedAtText||"")}
+
+<br>
+
+削除者：
+${esc(r.deletedBy||"")}
+
+</div>
+
+<div class="r-actions">
+
+<button
+class="success"
+onclick="restoreRow('${r.id}')">
+復元
+</button>
+
+<button
+class="danger"
+onclick="permanentDelete('${r.id}')">
+完全削除
+</button>
+
+</div>
+
+${historyHtml(r)}
+
+</div>
+
+`
+:
+`
 
 <div class="r-card">
 
@@ -1153,7 +1413,6 @@ ${esc(r.room)}
 </div>
 
 </div>
-
 
 <div style="text-align:right">
 
@@ -1191,12 +1450,7 @@ ${esc(r.count)}個
 対応状況
 </div>
 
-<span
-class="status ${sclass(r.status)}">
-
-${esc(r.status)}
-
-</span>
+${statusSelect(r)}
 
 </div>
 
@@ -1231,7 +1485,9 @@ ${esc(fmtDate(r.received||""))}
 </div>
 
 
-${r.note ? `
+${r.note
+?
+`
 
 <div style="margin-top:10px">
 
@@ -1245,7 +1501,10 @@ ${esc(r.note)}
 
 </div>
 
-` : ""}
+`
+:
+""
+}
 
 
 <div class="r-actions">
@@ -1255,38 +1514,32 @@ ${esc(r.note)}
 <button
 class="success"
 type="button">
-
 電話する
-
 </button>
 
 </a>
 
-
 <button
 class="secondary"
-type="button"
 onclick="editRow('${r.id}')">
-
 編集
-
 </button>
-
 
 <button
-class="danger"
-type="button"
-onclick="deleteRow('${r.id}')">
-
-削除
-
+class="warning"
+onclick="softDelete('${r.id}')">
+ゴミ箱へ
 </button>
 
 </div>
 
+${historyHtml(r)}
+
 </div>
 
-`).join("");
+`
+)
+.join("");
 
 }
 
@@ -1297,12 +1550,14 @@ $("form").reset();
 
 $("editId").value="";
 
-$("status").value="未対応";
+$("status").value=
+"未対応";
 
-$("saveBtn").textContent =
+$("saveBtn")
+.textContent=
 "予約を登録";
 
-$("received").value =
+$("received").value=
 isoLocal(
 new Date()
 );
@@ -1310,23 +1565,87 @@ new Date()
 }
 
 
+function diffMessage(o,n){
+
+const map={
+
+customer:"お客様名",
+building:"建物名",
+room:"部屋番号",
+count:"交換個数",
+phone:"電話番号",
+date:"希望日程",
+time:"希望時間",
+status:"対応状況",
+received:"受付日",
+note:"備考"
+
+};
+
+
+const c=[];
+
+
+for(
+const [k,l]
+of Object.entries(map)
+){
+
+const a=
+String(
+o?.[k] ?? ""
+);
+
+const b=
+String(
+n?.[k] ?? ""
+);
+
+
+if(a!==b){
+
+c.push(
+`${l}: ${a||"（空欄）"} → ${b||"（空欄）"}`
+);
+
+}
+
+}
+
+
+return (
+c.join(" / ")
+||
+"内容を更新"
+);
+
+}
+
+
 $("loginBtn")
-.addEventListener(
-"click",
+.onclick=
 async ()=>{
-
-$("loginStatus")
-.textContent =
-"ログイン中...";
-
 
 try{
 
+$("loginStatus")
+.textContent=
+"ログイン中...";
+
+
 await signInWithEmailAndPassword(
+
 auth,
-$("loginEmail").value.trim(),
-$("loginPassword").value
+
+$("loginEmail")
+.value
+.trim(),
+
+$("loginPassword")
+.value
+
 );
+
 
 $("loginStatus")
 .textContent="";
@@ -1337,12 +1656,12 @@ catch(e){
 console.error(e);
 
 $("loginStatus")
-.textContent =
+.textContent=
 "メールアドレスまたはパスワードを確認してください。";
 
 }
 
-});
+};
 
 
 $("loginPassword")
@@ -1353,22 +1672,18 @@ e=>{
 if(e.key==="Enter")
 $("loginBtn").click();
 
-});
+}
+);
 
 
 $("logoutBtn")
-.addEventListener(
-"click",
-async ()=>{
-
-await signOut(auth);
-
-});
+.onclick=
+()=>signOut(auth);
 
 
 onAuthStateChanged(
 auth,
-user=>{
+u=>{
 
 if(unsubscribe){
 
@@ -1379,51 +1694,57 @@ unsubscribe=null;
 }
 
 
-if(user){
+if(u){
 
 $("loginScreen")
-.classList.add("hidden");
+.classList.add(
+"hidden"
+);
 
 $("appScreen")
-.classList.remove("hidden");
+.classList.remove(
+"hidden"
+);
 
 $("userEmail")
-.textContent =
-user.email || "";
+.textContent=
+u.email || "";
 
 
-const reservations =
+unsubscribe=
+onSnapshot(
+
 collection(
 db,
 "reservations"
-);
+),
 
+s=>{
 
-unsubscribe =
-onSnapshot(
-reservations,
-snapshot=>{
-
-data =
-snapshot.docs.map(d=>({
+data=
+s.docs.map(
+d=>({
 
 id:d.id,
 ...d.data()
 
-}));
+})
+);
 
 render();
 
 },
-error=>{
 
-console.error(error);
+e=>{
+
+console.error(e);
 
 alert(
-"予約データを読み込めませんでした。Firestore設定を確認してください。"
+"予約データを読み込めませんでした。"
 );
 
 }
+
 );
 
 
@@ -1435,18 +1756,24 @@ else{
 data=[];
 
 $("appScreen")
-.classList.add("hidden");
+.classList.add(
+"hidden"
+);
 
 $("loginScreen")
-.classList.remove("hidden");
+.classList.remove(
+"hidden"
+);
 
-$("loginPassword").value="";
+$("loginPassword")
+.value="";
 
 render();
 
 }
 
-});
+}
+);
 
 
 $("form")
@@ -1468,26 +1795,34 @@ return;
 }
 
 
-const editId =
+const id=
 $("editId").value;
 
 
-const rec = {
+const r={
 
 customer:
-$("customer").value.trim(),
+$("customer")
+.value
+.trim(),
 
 building:
-$("building").value.trim(),
+$("building")
+.value
+.trim(),
 
 room:
-$("room").value.trim(),
+$("room")
+.value
+.trim(),
 
 count:
 $("count").value,
 
 phone:
-$("phone").value.trim(),
+$("phone")
+.value
+.trim(),
 
 date:
 $("date").value,
@@ -1502,7 +1837,9 @@ received:
 $("received").value,
 
 note:
-$("note").value.trim(),
+$("note")
+.value
+.trim(),
 
 updatedAt:
 serverTimestamp(),
@@ -1515,33 +1852,88 @@ auth.currentUser.email || ""
 
 try{
 
-if(editId){
+if(id){
+
+const old=
+data.find(
+x=>x.id===id
+);
+
 
 await updateDoc(
+
 doc(
 db,
 "reservations",
-editId
+id
 ),
-rec
+
+{
+
+...r,
+
+history:
+arrayUnion({
+
+at:
+nowText(),
+
+by:
+auth.currentUser.email || "",
+
+message:
+diffMessage(
+old,
+r
+)
+
+})
+
+}
+
 );
 
 }
 else{
 
-rec.createdAt =
-serverTimestamp();
-
-rec.createdBy =
-auth.currentUser.email || "";
-
-
 await addDoc(
+
 collection(
 db,
 "reservations"
 ),
-rec
+
+{
+
+...r,
+
+isDeleted:false,
+
+createdAt:
+serverTimestamp(),
+
+createdBy:
+auth.currentUser.email || "",
+
+history:[
+
+{
+
+at:
+nowText(),
+
+by:
+auth.currentUser.email || "",
+
+message:
+"予約を新規登録"
+
+}
+
+]
+
+}
+
 );
 
 }
@@ -1560,93 +1952,135 @@ alert(
 
 }
 
-});
+}
+);
 
 
 $("clearBtn")
-.addEventListener(
-"click",
-clearForm
-);
+.onclick=
+clearForm;
 
 
-window.editRow =
+window.editRow=
 id=>{
 
-const r =
+const r=
 data.find(
 x=>x.id===id
 );
+
 
 if(!r)
 return;
 
 
-$("editId").value=r.id;
+$("editId").value=
+r.id;
+
 
 $("customer").value=
-r.customer||"";
+r.customer || "";
 
 $("building").value=
-r.building||"";
+r.building || "";
 
 $("room").value=
-r.room||"";
+r.room || "";
 
 $("count").value=
-r.count||"";
+r.count || "";
 
 $("phone").value=
-r.phone||"";
+r.phone || "";
 
 $("date").value=
-r.date||"";
+r.date || "";
 
 $("time").value=
-r.time||"";
+r.time || "";
 
 $("status").value=
-r.status||"未対応";
+r.status || "未対応";
 
 $("received").value=
-r.received||"";
+r.received || "";
 
 $("note").value=
-r.note||"";
+r.note || "";
 
 
 $("saveBtn")
-.textContent =
+.textContent=
 "変更を保存";
 
 
 window.scrollTo({
+
 top:0,
+
 behavior:"smooth"
+
 });
 
 };
 
 
-window.deleteRow =
-async id=>{
+window.quickStatus=
+async(
+id,
+s
+)=>{
+
+const r=
+data.find(
+x=>x.id===id
+);
+
 
 if(
-!confirm(
-"この予約を削除しますか？"
-)
+!r
+||
+r.status===s
 )
 return;
 
 
 try{
 
-await deleteDoc(
+await updateDoc(
+
 doc(
 db,
 "reservations",
 id
-)
+),
+
+{
+
+status:s,
+
+updatedAt:
+serverTimestamp(),
+
+updatedBy:
+auth.currentUser.email || "",
+
+history:
+arrayUnion({
+
+at:
+nowText(),
+
+by:
+auth.currentUser.email || "",
+
+message:
+`対応状況: ${r.status||"未設定"} → ${s}`
+
+})
+
+}
+
 );
 
 }
@@ -1655,7 +2089,203 @@ catch(e){
 console.error(e);
 
 alert(
-"予約を削除できませんでした。"
+"対応状況を変更できませんでした。"
+);
+
+}
+
+};
+
+
+window.softDelete=
+async id=>{
+
+const r=
+data.find(
+x=>x.id===id
+);
+
+
+if(!r)
+return;
+
+
+if(
+!confirm(
+
+`「${r.customer||"この予約"}」をゴミ箱へ移動しますか？\n後から復元できます。`
+
+)
+)
+return;
+
+
+try{
+
+await updateDoc(
+
+doc(
+db,
+"reservations",
+id
+),
+
+{
+
+isDeleted:true,
+
+deletedAt:
+serverTimestamp(),
+
+deletedAtText:
+nowText(),
+
+deletedBy:
+auth.currentUser.email || "",
+
+history:
+arrayUnion({
+
+at:
+nowText(),
+
+by:
+auth.currentUser.email || "",
+
+message:
+"ゴミ箱へ移動"
+
+})
+
+}
+
+);
+
+}
+catch(e){
+
+console.error(e);
+
+alert(
+"ゴミ箱へ移動できませんでした。"
+);
+
+}
+
+};
+
+
+window.restoreRow=
+async id=>{
+
+try{
+
+await updateDoc(
+
+doc(
+db,
+"reservations",
+id
+),
+
+{
+
+isDeleted:false,
+
+deletedAt:null,
+
+deletedAtText:"",
+
+deletedBy:"",
+
+updatedAt:
+serverTimestamp(),
+
+updatedBy:
+auth.currentUser.email || "",
+
+history:
+arrayUnion({
+
+at:
+nowText(),
+
+by:
+auth.currentUser.email || "",
+
+message:
+"ゴミ箱から復元"
+
+})
+
+}
+
+);
+
+}
+catch(e){
+
+console.error(e);
+
+alert(
+"復元できませんでした。"
+);
+
+}
+
+};
+
+
+window.permanentDelete=
+async id=>{
+
+const r=
+data.find(
+x=>x.id===id
+);
+
+
+if(!r)
+return;
+
+
+if(
+!confirm(
+
+`「${r.customer||"この予約"}」を完全に削除しますか？\nこの操作は元に戻せません。`
+
+)
+)
+return;
+
+
+if(
+!confirm(
+"本当に完全削除しますか？"
+)
+)
+return;
+
+
+try{
+
+await deleteDoc(
+
+doc(
+db,
+"reservations",
+id
+)
+
+);
+
+}
+catch(e){
+
+console.error(e);
+
+alert(
+"完全削除できませんでした。"
 );
 
 }
@@ -1688,33 +2318,53 @@ document
 .querySelectorAll(
 "[data-quick]"
 )
-.forEach(btn=>{
-
-btn.addEventListener(
-"click",
+.forEach(
+b=>
+b.onclick=
 ()=>{
 
-$("filterDate").value =
-btn.dataset.quick;
+$("filterDate").value=
+b.dataset.quick;
 
 render();
 
 }
 );
 
-});
+
+$("activeViewBtn")
+.onclick=
+()=>{
+
+viewMode=
+"active";
+
+render();
+
+};
+
+
+$("trashViewBtn")
+.onclick=
+()=>{
+
+viewMode=
+"trash";
+
+render();
+
+};
 
 
 $("csvBtn")
-.addEventListener(
-"click",
+.onclick=
 ()=>{
 
-const rows =
+const rows=
 filtered();
 
 
-const header = [
+const head=[
 
 "お客様名",
 "建物名",
@@ -1730,11 +2380,12 @@ const header = [
 ];
 
 
-const csvData = [
+const all=[
 
-header,
+head,
 
-...rows.map(r=>[
+...rows.map(
+r=>[
 
 r.customer,
 r.building,
@@ -1744,56 +2395,56 @@ r.phone,
 r.date,
 r.time,
 r.status,
-r.received||"",
-r.note||""
+r.received || "",
+r.note || ""
 
-])
+]
+)
 
 ];
 
 
-const csv =
-csvData
-.map(
+const csv=
+all.map(
 row=>
 row.map(
 v=>
-'"'
-+
-String(v??"")
-.replace(/"/g,'""')
-+
-'"'
+`"${String(v??"").replace(/"/g,'""')}"`
 )
 .join(",")
 )
 .join("\r\n");
 
 
-const blob =
+const blob=
 new Blob(
-["\uFEFF"+csv],
+
+[
+"\uFEFF"+csv
+],
+
 {
 type:
 "text/csv;charset=utf-8;"
 }
+
 );
 
 
-const a =
-document.createElement("a");
+const a=
+document.createElement(
+"a"
+);
 
 
-a.href =
-URL.createObjectURL(blob);
+a.href=
+URL.createObjectURL(
+blob
+);
 
 
-a.download =
-"予約一覧_"
-+
-isoLocal(new Date())
-+
-".csv";
+a.download=
+`予約一覧_${isoLocal(new Date())}.csv`;
 
 
 a.click();
@@ -1803,8 +2454,10 @@ URL.revokeObjectURL(
 a.href
 );
 
-});
+};
 
+
+clearForm();
 
 </script>
 
