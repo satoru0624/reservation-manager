@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>予約管理アプリ</title>
+
+<style>
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",sans-serif;
+  background:#f4f6f8;
+  color:#222;
+}
+
+header{
+  background:#1f2937;
+  color:white;
+  padding:18px;
+  text-align:center;
+}
+
+header h1{
+  margin:0;
+  font-size:24px;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:15px;
+}
+
+.card{
+  background:white;
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+h2{
+  margin-top:0;
+  font-size:20px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+}
+
+label{
+  font-weight:bold;
+  margin-bottom:5px;
+  font-size:14px;
+}
+
+input,select,textarea{
+  font-size:16px;
+  padding:11px;
+  border:1px solid #ccc;
+  border-radius:8px;
+}
+
+.full{
+  grid-column:1 / -1;
+}
+
+.buttons{
+  margin-top:15px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+button{
+  border:none;
+  border-radius:8px;
+  padding:11px 14px;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.primary{
+  background:#2563eb;
+  color:white;
+}
+
+.gray{
+  background:#e5e7eb;
+}
+
+.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.toolbar input,
+.toolbar select{
+  width:auto;
+  min-width:150px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1000px;
+}
+
+th,td{
+  border:1px solid #ddd;
+  padding:8px;
+  font-size:13px;
+  text-align:left;
+}
+
+th{
+  background:#f1f5f9;
+}
+
+.status{
+  font-weight:bold;
+}
+
+.summary{
+  margin-bottom:10px;
+  font-size:14px;
+}
+
+@media(max-width:700px){
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+}
+
+@media print{
+
+  @page{
+    size:A4 landscape;
+    margin:8mm;
+  }
+
+  header,
+  .input-card,
+  .toolbar,
+  .action-column,
+  .no-print{
+    display:none !important;
+  }
+
+  body{
+    background:white;
+  }
+
+  .container{
+    padding:0;
+    max-width:none;
+  }
+
+  .card{
+    box-shadow:none;
+    padding:0;
+  }
+
+  table{
+    min-width:0;
+    table-layout:fixed;
+    width:100%;
+  }
+
+  th,td{
+    font-size:9px;
+    padding:4px;
+    word-break:break-word;
+  }
+
+  h2{
+    font-size:16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>予約管理アプリ</h1>
+</header>
+
+<div class="container">
+
+  <div class="card input-card">
+
+    <h2>予約入力</h2>
+
+    <form id="form">
+
+      <input type="hidden" id="editId">
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label>お客様名</label>
+          <input id="customer" required>
+        </div>
+
+        <div class="field">
+          <label>建物名（アパート）</label>
+          <input id="building" required>
+        </div>
+
+        <div class="field">
+          <label>部屋番号</label>
+          <input id="room" required>
+        </div>
+
+        <div class="field">
+          <label>交換個数</label>
+          <input id="count" type="number" min="1" required>
+        </div>
+
+        <div class="field full">
+          <label>電話番号</label>
+          <input id="phone" type="tel" required>
+        </div>
+
+        <div class="field">
+          <label>希望日程</label>
+          <input id="date" type="date" required>
+        </div>
+
+        <div class="field">
+          <label>希望時間</label>
+          <input id="time" type="time" required>
+        </div>
+
+        <div class="field">
+          <label>対応状況</label>
+
+          <select id="status">
+            <option>未対応</option>
+            <option>日程変更</option>
+            <option>完了</option>
+            <option>キャンセル</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>受付日</label>
+          <input id="received" type="date">
+        </div>
+
+        <div class="field full">
+          <label>備考</label>
+          <textarea id="note" rows="3"></textarea>
+        </div>
+
+      </div>
+
+      <div class="buttons">
+
+        <button type="submit" class="primary" id="saveButton">
+          予約を登録
+        </button>
+
+        <button type="button" class="gray" onclick="clearForm()">
+          入力クリア
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>予約一覧</h2>
+
+    <div class="toolbar">
+
+      <input
+        id="search"
+        placeholder="名前・建物名・電話番号で検索"
+      >
+
+      <select id="filter">
+
+        <option value="">すべて表示</option>
+
+        <option>未対応</option>
+
+        <option>日程変更</option>
+
+        <option>完了</option>
+
+        <option>キャンセル</option>
+
+      </select>
+
+      <button class="gray" onclick="exportCSV()">
+        CSV出力
+      </button>
+
+      <button class="gray" onclick="window.print()">
+        A4横で印刷
+      </button>
+
+    </div>
+
+    <div id="summary" class="summary"></div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>希望日程</th>
+
+            <th>希望時間</th>
+
+            <th>お客様名</th>
+
+            <th>建物名</th>
+
+            <th>部屋番号</th>
+
+            <th>交換個数</th>
+
+            <th>電話番号</th>
+
+            <th>対応状況</th>
+
+            <th>受付日</th>
+
+            <th>備考</th>
+
+            <th class="action-column">操作</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="tableBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const STORAGE_KEY="reservation_manager_data";
+
+let data =
+JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+
+function save(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+function getFiltered(){
+
+  const search =
+    document.getElementById("search")
+    .value
+    .toLowerCase();
+
+  const filter =
+    document.getElementById("filter")
+    .value;
+
+  return [...data]
+
+  .filter(r => {
+
+    if(filter && r.status !== filter){
+      return false;
+    }
+
+    const text =
+      (
+        r.customer +
+        r.building +
+        r.room +
+        r.phone +
+        r.note
+      ).toLowerCase();
+
+    return text.includes(search);
+
+  })
+
+  .sort((a,b)=>{
+
+    const A =
+      (a.date || "") +
+      (a.time || "");
+
+    const B =
+      (b.date || "") +
+      (b.time || "");
+
+    return A.localeCompare(B);
+
+  });
+
+}
+
+
+function render(){
+
+  const tbody =
+    document.getElementById("tableBody");
+
+  tbody.innerHTML="";
+
+  const rows=getFiltered();
+
+  document.getElementById("summary")
+  .textContent =
+  "表示件数：" +
+  rows.length +
+  "件 ／ 登録総数：" +
+  data.length +
+  "件";
+
+
+  rows.forEach(r=>{
+
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+
+    <td>${r.date}</td>
+
+    <td>${r.time}</td>
+
+    <td>${escapeHTML(r.customer)}</td>
+
+    <td>${escapeHTML(r.building)}</td>
+
+    <td>${escapeHTML(r.room)}</td>
+
+    <td>${escapeHTML(r.count)}</td>
+
+    <td>${escapeHTML(r.phone)}</td>
+
+    <td class="status">${escapeHTML(r.status)}</td>
+
+    <td>${escapeHTML(r.received || "")}</td>
+
+    <td>${escapeHTML(r.note || "")}</td>
+
+    <td class="action-column">
+
+      <button
+      class="gray"
+      onclick="editReservation('${r.id}')">
+      編集
+      </button>
+
+      <button
+      class="red"
+      onclick="deleteReservation('${r.id}')">
+      削除
+      </button>
+
+    </td>
+
+    `;
+
+    tbody.appendChild(tr);
+
+  });
+
+}
+
+
+function escapeHTML(text){
+
+  const div=document.createElement("div");
+
+  div.textContent=text || "";
+
+  return div.innerHTML;
+
+}
+
+
+document
+.getElementById("form")
+.addEventListener("submit",function(e){
+
+  e.preventDefault();
+
+  const editId =
+    document.getElementById("editId").value;
+
+  const record={
+
+    id:
+      editId ||
+      Date.now().toString(),
+
+    customer:
+      document.getElementById("customer").value,
+
+    building:
+      document.getElementById("building").value,
+
+    room:
+      document.getElementById("room").value,
+
+    count:
+      document.getElementById("count").value,
+
+    phone:
+      document.getElementById("phone").value,
+
+    date:
+      document.getElementById("date").value,
+
+    time:
+      document.getElementById("time").value,
+
+    status:
+      document.getElementById("status").value,
+
+    received:
+      document.getElementById("received").value,
+
+    note:
+      document.getElementById("note").value
+
+  };
+
+
+  const index =
+    data.findIndex(
+      r => r.id === editId
+    );
+
+
+  if(index >= 0){
+
+    data[index]=record;
+
+  }else{
+
+    data.push(record);
+
+  }
+
+
+  save();
+
+  clearForm();
+
+  render();
+
+});
+
+
+function editReservation(id){
+
+  const r =
+    data.find(
+      x => x.id === id
+    );
+
+  if(!r)return;
+
+
+  document.getElementById("editId").value=r.id;
+
+  document.getElementById("customer").value=r.customer;
+
+  document.getElementById("building").value=r.building;
+
+  document.getElementById("room").value=r.room;
+
+  document.getElementById("count").value=r.count;
+
+  document.getElementById("phone").value=r.phone;
+
+  document.getElementById("date").value=r.date;
+
+  document.getElementById("time").value=r.time;
+
+  document.getElementById("status").value=r.status;
+
+  document.getElementById("received").value=r.received || "";
+
+  document.getElementById("note").value=r.note || "";
+
+
+  document.getElementById("saveButton")
+  .textContent="変更を保存";
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function deleteReservation(id){
+
+  if(
+    !confirm(
+      "この予約を削除しますか？"
+    )
+  ){
+    return;
+  }
+
+
+  data=
+  data.filter(
+    r => r.id !== id
+  );
+
+
+  save();
+
+  render();
+
+}
+
+
+function clearForm(){
+
+  document.getElementById("form").reset();
+
+  document.getElementById("editId").value="";
+
+  document.getElementById("status").value="未対応";
+
+  document.getElementById("saveButton")
+  .textContent="予約を登録";
+
+
+  const today =
+    new Date()
+    .toISOString()
+    .slice(0,10);
+
+
+  document.getElementById("received").value=today;
+
+}
+
+
+function exportCSV(){
+
+  const rows=getFiltered();
+
+
+  const header=[
+
+    "お客様名",
+
+    "建物名",
+
+    "部屋番号",
+
+    "交換個数",
+
+    "電話番号",
+
+    "希望日程",
+
+    "希望時間",
+
+    "対応状況",
+
+    "受付日",
+
+    "備考"
+
+  ];
+
+
+  const csvData=[header];
+
+
+  rows.forEach(r=>{
+
+    csvData.push([
+
+      r.customer,
+
+      r.building,
+
+      r.room,
+
+      r.count,
+
+      r.phone,
+
+      r.date,
+
+      r.time,
+
+      r.status,
+
+      r.received || "",
+
+      r.note || ""
+
+    ]);
+
+  });
+
+
+  const csv =
+    csvData
+    .map(row=>
+
+      row.map(value=>
+
+        '"' +
+        String(value)
+        .replace(/"/g,'""') +
+        '"'
+
+      ).join(",")
+
+    )
+    .join("\r\n");
+
+
+  const blob =
+    new Blob(
+
+      ["\uFEFF"+csv],
+
+      {
+        type:
+        "text/csv;charset=utf-8;"
+      }
+
+    );
+
+
+  const link =
+    document.createElement("a");
+
+
+  link.href =
+    URL.createObjectURL(blob);
+
+
+  link.download =
+    "予約一覧.csv";
+
+
+  link.click();
+
+}
+
+
+document
+.getElementById("search")
+.addEventListener(
+  "input",
+  render
+);
+
+
+document
+.getElementById("filter")
+.addEventListener(
+  "change",
+  render
+);
+
+
+clearForm();
+
+render();
+
+</script>
+
+</body>
+</html>
