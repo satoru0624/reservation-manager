@@ -22,6 +22,7 @@ text-align:center
 }
 header h1{margin:0;font-size:24px}
 main{max-width:1180px;margin:auto;padding:14px}
+
 .card{
 background:#fff;
 border-radius:14px;
@@ -29,15 +30,28 @@ padding:16px;
 margin-bottom:14px;
 box-shadow:0 2px 10px rgba(0,0,0,.06)
 }
+
 h2{margin:0 0 14px}
+
 .form-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px
 }
-.field{display:flex;flex-direction:column;gap:6px}
+
+.field{
+display:flex;
+flex-direction:column;
+gap:6px
+}
+
 .full{grid-column:1/-1}
-label{font-size:14px;font-weight:700}
+
+label{
+font-size:14px;
+font-weight:700
+}
+
 input,select,textarea{
 width:100%;
 padding:12px;
@@ -46,12 +60,15 @@ border-radius:10px;
 font-size:16px;
 background:white
 }
+
 .actions,.toolbar,.quick{
 display:flex;
 gap:8px;
 flex-wrap:wrap
 }
+
 .actions{margin-top:14px}
+
 button{
 border:0;
 border-radius:10px;
@@ -59,10 +76,26 @@ padding:11px 14px;
 font-weight:700;
 font-size:14px
 }
-.primary{background:#2563eb;color:white}
-.secondary{background:#e5e7eb;color:#111827}
-.danger{background:#fee2e2;color:#991b1b}
-.success{background:#dcfce7;color:#166534}
+
+.primary{
+background:#2563eb;
+color:white
+}
+
+.secondary{
+background:#e5e7eb;
+color:#111827
+}
+
+.danger{
+background:#fee2e2;
+color:#991b1b
+}
+
+.success{
+background:#dcfce7;
+color:#166534
+}
 
 .filters{
 display:grid;
@@ -167,18 +200,82 @@ text-decoration:none
 
 .note{white-space:pre-wrap}
 
+#loginScreen{
+max-width:460px;
+margin:40px auto
+}
+
+.loginBox{
+background:white;
+padding:22px;
+border-radius:16px;
+box-shadow:0 2px 12px rgba(0,0,0,.08)
+}
+
+.loginBox h2{
+text-align:center;
+margin-bottom:20px
+}
+
+.loginBox input{
+margin-bottom:12px
+}
+
+.loginBox button{
+width:100%
+}
+
+.loginStatus{
+margin-top:12px;
+font-size:14px;
+color:#b91c1c;
+text-align:center
+}
+
+.userbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:12px;
+font-size:13px
+}
+
+.sync{
+font-size:13px;
+color:#166534;
+font-weight:700
+}
+
+.hidden{
+display:none!important
+}
+
 @media(max-width:760px){
 
-.form-grid{grid-template-columns:1fr}
-.full{grid-column:auto}
+.form-grid{
+grid-template-columns:1fr
+}
 
-.filters{grid-template-columns:1fr}
+.full{
+grid-column:auto
+}
 
-.desktop-table{display:none}
+.filters{
+grid-template-columns:1fr
+}
 
-.mobile-list{display:block}
+.desktop-table{
+display:none
+}
 
-main{padding:10px}
+.mobile-list{
+display:block
+}
+
+main{
+padding:10px
+}
 
 }
 
@@ -189,7 +286,9 @@ size:A4 landscape;
 margin:8mm
 }
 
-body{background:white}
+body{
+background:white
+}
 
 header,
 .input-card,
@@ -197,7 +296,8 @@ header,
 .filters,
 .quick,
 .mobile-list,
-.no-print{
+.no-print,
+.userbar{
 display:none!important
 }
 
@@ -240,7 +340,66 @@ word-break:break-word
 <h1>予約管理アプリ</h1>
 </header>
 
-<main>
+<div id="loginScreen">
+
+<div class="loginBox">
+
+<h2>ログイン</h2>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="メールアドレス"
+autocomplete="username">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="パスワード"
+autocomplete="current-password">
+
+<button
+id="loginBtn"
+class="primary">
+ログイン
+</button>
+
+<div
+id="loginStatus"
+class="loginStatus">
+</div>
+
+</div>
+
+</div>
+
+
+<main
+id="appScreen"
+class="hidden">
+
+<div class="userbar no-print">
+
+<div>
+
+<span class="sync">
+● クラウド同期中
+</span>
+
+<br>
+
+<span id="userEmail"></span>
+
+</div>
+
+<button
+id="logoutBtn"
+class="secondary">
+ログアウト
+</button>
+
+</div>
+
 
 <section class="card input-card">
 
@@ -248,74 +407,165 @@ word-break:break-word
 
 <form id="form">
 
-<input type="hidden" id="editId">
+<input
+type="hidden"
+id="editId">
 
 <div class="form-grid">
 
 <div class="field">
-<label>お客様名 *</label>
-<input id="customer" required>
+
+<label>
+お客様名 *
+</label>
+
+<input
+id="customer"
+required>
+
 </div>
 
-<div class="field">
-<label>建物名（アパート） *</label>
-<input id="building" required>
-</div>
 
 <div class="field">
-<label>部屋番号 *</label>
-<input id="room" required>
+
+<label>
+建物名（アパート） *
+</label>
+
+<input
+id="building"
+required>
+
 </div>
 
+
 <div class="field">
-<label>交換個数 *</label>
-<input id="count" type="number" min="1" required>
+
+<label>
+部屋番号 *
+</label>
+
+<input
+id="room"
+required>
+
 </div>
+
+
+<div class="field">
+
+<label>
+交換個数 *
+</label>
+
+<input
+id="count"
+type="number"
+min="1"
+required>
+
+</div>
+
 
 <div class="field full">
-<label>電話番号 *</label>
-<input id="phone" type="tel" required>
+
+<label>
+電話番号 *
+</label>
+
+<input
+id="phone"
+type="tel"
+required>
+
 </div>
 
-<div class="field">
-<label>希望日程 *</label>
-<input id="date" type="date" required>
-</div>
 
 <div class="field">
-<label>希望時間 *</label>
-<input id="time" type="time" required>
+
+<label>
+希望日程 *
+</label>
+
+<input
+id="date"
+type="date"
+required>
+
 </div>
 
+
 <div class="field">
-<label>対応状況</label>
+
+<label>
+希望時間 *
+</label>
+
+<input
+id="time"
+type="time"
+required>
+
+</div>
+
+
+<div class="field">
+
+<label>
+対応状況
+</label>
 
 <select id="status">
-<option>未対応</option>
-<option>日程変更</option>
-<option>完了</option>
-<option>キャンセル</option>
+
+<option>
+未対応
+</option>
+
+<option>
+日程変更
+</option>
+
+<option>
+完了
+</option>
+
+<option>
+キャンセル
+</option>
+
 </select>
 
 </div>
 
+
 <div class="field">
 
-<label>受付日</label>
+<label>
+受付日
+</label>
 
-<input id="received" type="date">
+<input
+id="received"
+type="date">
 
 </div>
+
 
 <div class="field full">
 
-<label>備考</label>
+<label>
+備考
+</label>
 
-<textarea id="note" rows="3"></textarea>
+<textarea
+id="note"
+rows="3">
+</textarea>
 
 </div>
 
 </div>
+
 
 <div class="actions">
 
@@ -362,6 +612,7 @@ placeholder="名前・建物名・電話番号で検索">
 <option>キャンセル</option>
 
 </select>
+
 
 <select id="filterDate">
 
@@ -433,30 +684,6 @@ onclick="window.print()">
 A4横で印刷
 </button>
 
-<button
-class="secondary"
-id="backupBtn">
-バックアップ保存
-</button>
-
-<label
-class="secondary"
-style="
-padding:11px 14px;
-border-radius:10px;
-font-weight:700;
-cursor:pointer">
-
-バックアップ読込
-
-<input
-id="restoreInput"
-type="file"
-accept=".json"
-hidden>
-
-</label>
-
 </div>
 
 
@@ -481,16 +708,28 @@ id="mobileList">
 <tr>
 
 <th>希望日程</th>
+
 <th>希望時間</th>
+
 <th>お客様名</th>
+
 <th>建物名</th>
+
 <th>部屋番号</th>
+
 <th>交換個数</th>
+
 <th>電話番号</th>
+
 <th>状況</th>
+
 <th>受付日</th>
+
 <th>備考</th>
-<th class="no-print">操作</th>
+
+<th class="no-print">
+操作
+</th>
 
 </tr>
 
@@ -507,35 +746,84 @@ id="mobileList">
 </main>
 
 
-<script>
+<script type="module">
 
-const KEY="reservation_manager_v2";
-
-let data=
-JSON.parse(
-localStorage.getItem(KEY)
-||
-localStorage.getItem("reservation_manager_data")
-||
-"[]"
-);
-
-
-const $=
-id=>document.getElementById(id);
-
-
-const form=$("form");
-
-
-function save(){
-
-localStorage.setItem(
-KEY,
-JSON.stringify(data)
-);
-
+import {
+initializeApp
 }
+from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+import {
+getFirestore,
+collection,
+addDoc,
+doc,
+updateDoc,
+deleteDoc,
+onSnapshot,
+serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyDAojY61XI6ZiCCVkRcQxLRLHK2aI0U3Aw",
+
+authDomain:
+"reservation-manager-24352.firebaseapp.com",
+
+projectId:
+"reservation-manager-24352",
+
+storageBucket:
+"reservation-manager-24352.firebasestorage.app",
+
+messagingSenderId:
+"1020898119995",
+
+appId:
+"1:1020898119995:web:96c0e1c388fd804f5da71e"
+
+};
+
+
+const app =
+initializeApp(
+firebaseConfig
+);
+
+
+const auth =
+getAuth(app);
+
+
+const db =
+getFirestore(app);
+
+
+const $ =
+id =>
+document.getElementById(id);
+
+
+let data=[];
+
+let unsubscribe=null;
 
 
 function esc(v=""){
@@ -557,18 +845,30 @@ m=>({
 
 function fmtDate(s){
 
-if(!s)return "";
+if(!s)
+return "";
 
-const parts=s.split("-");
+const p=
+s.split("-");
 
-return parts[0]+"/"+parts[1]+"/"+parts[2];
+if(p.length!==3)
+return s;
+
+return (
+p[0]+
+"/"+
+p[1]+
+"/"+
+p[2]
+);
 
 }
 
 
 function isoLocal(d){
 
-const z=n=>
+const z =
+n =>
 String(n).padStart(2,"0");
 
 return (
@@ -584,30 +884,32 @@ z(d.getDate())
 
 function inWeek(dateStr){
 
-if(!dateStr)return false;
+if(!dateStr)
+return false;
 
-const now=new Date();
+const now =
+new Date();
 
 now.setHours(0,0,0,0);
 
-const day=
+const day =
 now.getDay() || 7;
 
-const monday=
+const monday =
 new Date(now);
 
 monday.setDate(
 now.getDate()-day+1
 );
 
-const sunday=
+const sunday =
 new Date(monday);
 
 sunday.setDate(
 monday.getDate()+6
 );
 
-const d=
+const d =
 new Date(
 dateStr+"T00:00:00"
 );
@@ -626,11 +928,13 @@ if(mode==="all")
 return true;
 
 
-const today=
-isoLocal(new Date());
+const today =
+isoLocal(
+new Date()
+);
 
 
-const tmr=
+const tmr =
 new Date();
 
 tmr.setDate(
@@ -638,7 +942,7 @@ tmr.getDate()+1
 );
 
 
-const tomorrow=
+const tomorrow =
 isoLocal(tmr);
 
 
@@ -665,31 +969,27 @@ return true;
 
 function filtered(){
 
-const q=
+const q =
 $("search")
 .value
 .trim()
 .toLowerCase();
 
 
-const fs=
+const fs =
 $("filterStatus").value;
 
 
-const fd=
+const fd =
 $("filterDate").value;
 
 
 return [...data]
 
-.filter(r=>
-
+.filter(r =>
 (!fs || r.status===fs)
-
 &&
-
 dateMatch(r,fd)
-
 )
 
 .filter(r=>{
@@ -697,7 +997,7 @@ dateMatch(r,fd)
 if(!q)
 return true;
 
-const text=
+const text =
 [
 r.customer,
 r.building,
@@ -714,12 +1014,12 @@ return text.includes(q);
 
 .sort((a,b)=>{
 
-const A=
+const A =
 (a.date||"")
 +" "
 +(a.time||"");
 
-const B=
+const B =
 (b.date||"")
 +" "
 +(b.time||"");
@@ -749,11 +1049,11 @@ return "s-new";
 
 function render(){
 
-const rows=
+const rows =
 filtered();
 
 
-$("summary").textContent=
+$("summary").textContent =
 "表示件数："
 +rows.length+
 "件 ／ 登録総数："
@@ -761,29 +1061,48 @@ $("summary").textContent=
 "件";
 
 
-$("tbody").innerHTML=
+$("tbody").innerHTML =
 rows.map(r=>`
 
 <tr>
 
-<td>${esc(fmtDate(r.date))}</td>
-
-<td>${esc(r.time)}</td>
-
-<td>${esc(r.customer)}</td>
-
-<td>${esc(r.building)}</td>
-
-<td>${esc(r.room)}</td>
-
-<td>${esc(r.count)}</td>
-
-<td>${esc(r.phone)}</td>
+<td>
+${esc(fmtDate(r.date))}
+</td>
 
 <td>
-<span class="status ${sclass(r.status)}">
+${esc(r.time)}
+</td>
+
+<td>
+${esc(r.customer)}
+</td>
+
+<td>
+${esc(r.building)}
+</td>
+
+<td>
+${esc(r.room)}
+</td>
+
+<td>
+${esc(r.count)}
+</td>
+
+<td>
+${esc(r.phone)}
+</td>
+
+<td>
+
+<span
+class="status ${sclass(r.status)}">
+
 ${esc(r.status)}
+
 </span>
+
 </td>
 
 <td>
@@ -815,7 +1134,7 @@ onclick="deleteRow('${r.id}')">
 `).join("");
 
 
-$("mobileList").innerHTML=
+$("mobileList").innerHTML =
 rows.map(r=>`
 
 <div class="r-card">
@@ -872,8 +1191,11 @@ ${esc(r.count)}個
 対応状況
 </div>
 
-<span class="status ${sclass(r.status)}">
+<span
+class="status ${sclass(r.status)}">
+
 ${esc(r.status)}
+
 </span>
 
 </div>
@@ -933,7 +1255,9 @@ ${esc(r.note)}
 <button
 class="success"
 type="button">
+
 電話する
+
 </button>
 
 </a>
@@ -969,41 +1293,186 @@ onclick="deleteRow('${r.id}')">
 
 function clearForm(){
 
-form.reset();
+$("form").reset();
 
 $("editId").value="";
 
 $("status").value="未対応";
 
-$("saveBtn").textContent=
+$("saveBtn").textContent =
 "予約を登録";
 
-$("received").value=
-isoLocal(new Date());
+$("received").value =
+isoLocal(
+new Date()
+);
 
 }
 
 
-form.addEventListener(
-"submit",
+$("loginBtn")
+.addEventListener(
+"click",
+async ()=>{
+
+$("loginStatus")
+.textContent =
+"ログイン中...";
+
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+$("loginEmail").value.trim(),
+$("loginPassword").value
+);
+
+$("loginStatus")
+.textContent="";
+
+}
+catch(e){
+
+console.error(e);
+
+$("loginStatus")
+.textContent =
+"メールアドレスまたはパスワードを確認してください。";
+
+}
+
+});
+
+
+$("loginPassword")
+.addEventListener(
+"keydown",
 e=>{
+
+if(e.key==="Enter")
+$("loginBtn").click();
+
+});
+
+
+$("logoutBtn")
+.addEventListener(
+"click",
+async ()=>{
+
+await signOut(auth);
+
+});
+
+
+onAuthStateChanged(
+auth,
+user=>{
+
+if(unsubscribe){
+
+unsubscribe();
+
+unsubscribe=null;
+
+}
+
+
+if(user){
+
+$("loginScreen")
+.classList.add("hidden");
+
+$("appScreen")
+.classList.remove("hidden");
+
+$("userEmail")
+.textContent =
+user.email || "";
+
+
+const reservations =
+collection(
+db,
+"reservations"
+);
+
+
+unsubscribe =
+onSnapshot(
+reservations,
+snapshot=>{
+
+data =
+snapshot.docs.map(d=>({
+
+id:d.id,
+...d.data()
+
+}));
+
+render();
+
+},
+error=>{
+
+console.error(error);
+
+alert(
+"予約データを読み込めませんでした。Firestore設定を確認してください。"
+);
+
+}
+);
+
+
+clearForm();
+
+}
+else{
+
+data=[];
+
+$("appScreen")
+.classList.add("hidden");
+
+$("loginScreen")
+.classList.remove("hidden");
+
+$("loginPassword").value="";
+
+render();
+
+}
+
+});
+
+
+$("form")
+.addEventListener(
+"submit",
+async e=>{
 
 e.preventDefault();
 
 
-const id=
-$("editId").value
-||
-Date.now().toString(36)
-+
-Math.random()
-.toString(36)
-.slice(2,6);
+if(!auth.currentUser){
+
+alert(
+"ログインしてください。"
+);
+
+return;
+
+}
 
 
-const rec={
+const editId =
+$("editId").value;
 
-id:id,
+
+const rec = {
 
 customer:
 $("customer").value.trim(),
@@ -1033,69 +1502,111 @@ received:
 $("received").value,
 
 note:
-$("note").value.trim()
+$("note").value.trim(),
+
+updatedAt:
+serverTimestamp(),
+
+updatedBy:
+auth.currentUser.email || ""
 
 };
 
 
-const i=
-data.findIndex(
-x=>x.id===id
+try{
+
+if(editId){
+
+await updateDoc(
+doc(
+db,
+"reservations",
+editId
+),
+rec
 );
 
+}
+else{
 
-if(i>=0){
+rec.createdAt =
+serverTimestamp();
 
-data[i]=rec;
+rec.createdBy =
+auth.currentUser.email || "";
 
-}else{
 
-data.push(rec);
+await addDoc(
+collection(
+db,
+"reservations"
+),
+rec
+);
 
 }
 
 
-save();
-
 clearForm();
 
-render();
+}
+catch(e){
+
+console.error(e);
+
+alert(
+"予約を保存できませんでした。"
+);
+
+}
 
 });
 
 
-$("clearBtn").onclick=
-clearForm;
+$("clearBtn")
+.addEventListener(
+"click",
+clearForm
+);
 
 
-window.editRow=
+window.editRow =
 id=>{
 
-const r=
+const r =
 data.find(
 x=>x.id===id
 );
 
-if(!r)return;
+if(!r)
+return;
 
 
 $("editId").value=r.id;
 
-$("customer").value=r.customer;
+$("customer").value=
+r.customer||"";
 
-$("building").value=r.building;
+$("building").value=
+r.building||"";
 
-$("room").value=r.room;
+$("room").value=
+r.room||"";
 
-$("count").value=r.count;
+$("count").value=
+r.count||"";
 
-$("phone").value=r.phone;
+$("phone").value=
+r.phone||"";
 
-$("date").value=r.date;
+$("date").value=
+r.date||"";
 
-$("time").value=r.time;
+$("time").value=
+r.time||"";
 
-$("status").value=r.status;
+$("status").value=
+r.status||"未対応";
 
 $("received").value=
 r.received||"";
@@ -1104,7 +1615,8 @@ $("note").value=
 r.note||"";
 
 
-$("saveBtn").textContent=
+$("saveBtn")
+.textContent =
 "変更を保存";
 
 
@@ -1116,8 +1628,8 @@ behavior:"smooth"
 };
 
 
-window.deleteRow=
-id=>{
+window.deleteRow =
+async id=>{
 
 if(
 !confirm(
@@ -1127,15 +1639,26 @@ if(
 return;
 
 
-data=
-data.filter(
-x=>x.id!==id
+try{
+
+await deleteDoc(
+doc(
+db,
+"reservations",
+id
+)
 );
 
+}
+catch(e){
 
-save();
+console.error(e);
 
-render();
+alert(
+"予約を削除できませんでした。"
+);
+
+}
 
 };
 
@@ -1167,26 +1690,31 @@ document
 )
 .forEach(btn=>{
 
-btn.onclick=()=>{
+btn.addEventListener(
+"click",
+()=>{
 
-$("filterDate").value=
+$("filterDate").value =
 btn.dataset.quick;
 
 render();
 
-};
+}
+);
 
 });
 
 
-$("csvBtn").onclick=
+$("csvBtn")
+.addEventListener(
+"click",
 ()=>{
 
-const rows=
+const rows =
 filtered();
 
 
-const header=[
+const header = [
 
 "お客様名",
 "建物名",
@@ -1202,8 +1730,10 @@ const header=[
 ];
 
 
-const csvData=[
+const csvData = [
+
 header,
+
 ...rows.map(r=>[
 
 r.customer,
@@ -1222,28 +1752,25 @@ r.note||""
 ];
 
 
-const csv=
+const csv =
 csvData
-
-.map(row=>
-
-row.map(v=>
-
+.map(
+row=>
+row.map(
+v=>
 '"'
 +
 String(v??"")
 .replace(/"/g,'""')
 +
 '"'
-
-).join(",")
-
 )
-
+.join(",")
+)
 .join("\r\n");
 
 
-const blob=
+const blob =
 new Blob(
 ["\uFEFF"+csv],
 {
@@ -1253,15 +1780,15 @@ type:
 );
 
 
-const a=
+const a =
 document.createElement("a");
 
 
-a.href=
+a.href =
 URL.createObjectURL(blob);
 
 
-a.download=
+a.download =
 "予約一覧_"
 +
 isoLocal(new Date())
@@ -1276,123 +1803,8 @@ URL.revokeObjectURL(
 a.href
 );
 
-};
+});
 
-
-$("backupBtn").onclick=
-()=>{
-
-const blob=
-new Blob(
-
-[
-JSON.stringify(
-data,
-null,
-2
-)
-],
-
-{
-type:"application/json"
-}
-
-);
-
-
-const a=
-document.createElement("a");
-
-
-a.href=
-URL.createObjectURL(blob);
-
-
-a.download=
-"予約データバックアップ_"
-+
-isoLocal(new Date())
-+
-".json";
-
-
-a.click();
-
-
-URL.revokeObjectURL(
-a.href
-);
-
-};
-
-
-$("restoreInput")
-.onchange=
-async e=>{
-
-const f=
-e.target.files[0];
-
-
-if(!f)
-return;
-
-
-try{
-
-const arr=
-JSON.parse(
-await f.text()
-);
-
-
-if(
-!Array.isArray(arr)
-)
-throw new Error();
-
-
-if(
-!confirm(
-"バックアップ "
-+
-arr.length
-+
-"件を読み込みます。\n現在のデータは置き換わります。\nよろしいですか？"
-)
-)
-return;
-
-
-data=arr;
-
-save();
-
-render();
-
-
-alert(
-"バックアップを読み込みました。"
-);
-
-
-}catch{
-
-alert(
-"バックアップファイルを読み込めませんでした。"
-);
-
-}
-
-
-e.target.value="";
-
-};
-
-
-clearForm();
-
-render();
 
 </script>
 
